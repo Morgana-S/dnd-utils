@@ -1,8 +1,10 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+![DNDUtils Logo](/documentation/feature-images/dndutils-logo.png)
 
-Welcome,
+# DNDUtils - Utility tools for Dungeons and Dragons
+DNDUtils is a simple python program with a few features designed to assist Dungeons and Dragons players with a few gameplay features. At time of release, the program currently has two features:
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **May 14, 2024**
+- DiceRoll: A random dice generator that allows for rolling a number of dice using the standard (x)d(y) format. (E.g. 1d6, 3d20) plus modifiers (4d5 + 2)
+- Fluff: A generative tool that allows for the creation of NPCs (Non-player characters) and places using prepopulated lists.
 
 ## Reminders
 
