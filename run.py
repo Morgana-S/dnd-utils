@@ -1,26 +1,29 @@
-# Google Spreadsheet Access - Uncomment when creating Fluff
-# import gspread
-# from google.oauth2.service_account import Credentials
-# import json
-
-# SCOPE = [
-#     "https://www.googleapis.com/auth/spreadsheets",
-#     "https://www.googleapis.com/auth/drive.file",
-#     "https://www.googleapis.com/auth/drive"
-#     ]
-
-# CREDS = Credentials.from_service_account_file("creds.json")
-# SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-# GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-# SHEET = GSPREAD_CLIENT.open("dnd_utils")
-
-# CHARACTERS_SHEET = SHEET.worksheet("characters")
-# PLACES_SHEET = SHEET.worksheet("places")
+import gspread
+from google.oauth2.service_account import Credentials
+import json
 from colorama import Fore, Back, Style, init
 init(autoreset = True)
 import cutie
 import random
 from tabulate import tabulate
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+    ]
+
+CREDS = Credentials.from_service_account_file("creds.json")
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open("dnd_utils")
+
+CHARACTERS_SHEET = SHEET.worksheet("characters")
+CHARACTERS_LISTS_SHEET = SHEET.worksheet("characters_lists")
+PLACES_SHEET = SHEET.worksheet("places")
+PLACES_LISTS_SHEET = SHEET.worksheet("places_lists")
+
+
 
 def introduction():
     """
@@ -64,6 +67,12 @@ def diceroller():
         # Loops the program back to the start
         main() 
 
+def fluff():
+    """
+    Asks the user if they want to generate a person (NPC) or place, takes user input for predefined features
+    of the entity and then generates an entity by drawing from predefined lists of characteristics
+    """
+    
 
 def function_selection(chosen_function):
     """
@@ -81,4 +90,7 @@ def main():
     chosen_function = introduction()
     function_selection(chosen_function)
 
-main()
+# main()
+place_names = PLACES_LISTS_SHEET.get("A2:A51")
+random_place_name = place_names[random.randint(1, 51)][0]
+print(random_place_name)
