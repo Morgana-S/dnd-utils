@@ -57,10 +57,10 @@ def function_selection():
     Starts the user's chosen function
     """
     chosen_function = introduction() # Runs the introduction and asks the user to pick a function
-    if chosen_function == Fore.YELLOW + "DiceRoller" + Fore.RESET:
+    if "DiceRoller" in chosen_function:
         print(f"Starting" + Fore.YELLOW + " DiceRoller" + Fore.RESET + "...")
         diceroller()
-    elif chosen_function == Fore.CYAN + "Fluff" + Fore.RESET:
+    elif "Fluff" in chosen_function:
         print(f"Starting" + Fore.CYAN + " Fluff" + Fore.RESET + "...")
     else: 
         print(Back.RED + "Exiting DNDUtils..." + Back.RESET)
