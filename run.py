@@ -51,11 +51,12 @@ def diceroller():
     num_of_sides = cutie.get_number("How many sides should each dice have?", min_value = 2, allow_float = False)
     dice_rolls =[random.randint(1, num_of_sides) for value in range(num_of_dice)]
     modifier_num = cutie.get_number("What is the modifier for the roll?", allow_float = False)
+    advantage_roll = cutie.prompt_yes_or_no("\u001b[31mIs this an advantage/disadvantage roll?")
     # Prints the result
     print(Fore.GREEN + "\nDice Summary")
-    print(f"\n\u001b[32mThe individual dice rolls were: {dice_rolls}")
-    print(f"The total of all dice is: {sum(dice_rolls)}")
-    print(f"The sum of all dice rolls plus the modifier was: {sum(dice_rolls) + modifier_num}")
+    print(f"\n\u001b[36mThe individual dice rolls were: \u001b[33m{dice_rolls}")
+    print(f"\u001b[31mThe total of all dice is: \u001b[37m{sum(dice_rolls)}")
+    print(f"\u001b[35mThe sum of all dice rolls plus the modifier was: \u001b[30;47m{sum(dice_rolls) + modifier_num}")
     if cutie.prompt_yes_or_no(Fore.YELLOW + "Would you like to roll more dice?"):
         # Begins the dice-rolling function again
         diceroller()
