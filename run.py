@@ -103,7 +103,21 @@ def fluff():
     ]
     chosen_option = options[cutie.select(options)]
     if "Person" in chosen_option:
-        pass
+        print(f"Please select applicable tags for the character to be generated.")
+        law_tags = [
+            "Law Alignment:",
+            "Lawful",
+            "Neutral",
+            "Chaotic",
+        ]
+        law_tag = law_tags[cutie.select(law_tags, caption_indices = [0])]
+        moral_tags = [
+            "Moral Alignment:",
+            "Good",
+            "Neutral",
+            "Evil"
+        ]
+        moral_tag = moral_tags[cutie.select(moral_tags, caption_indices = [0])]
     elif "Place" in chosen_option:
         pass
     else:
