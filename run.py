@@ -52,14 +52,19 @@ def diceroller():
     # Defines the variables used to calculate the dice rolls with user input - validates for number-only input
     num_of_dice = cutie.get_number("How many dice do you want to roll?", min_value = 1, allow_float = False)
     num_of_sides = cutie.get_number("How many sides should each dice have?", min_value = 2, allow_float = False)
-    dice_rolls =[random.randint(1, num_of_sides) for value in range(num_of_dice)]
+    dice_rolls = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
     modifier_num = cutie.get_number("What is the modifier for the roll?", allow_float = False)
-    advantage_roll = cutie.prompt_yes_or_no("\u001b[31mIs this an advantage/disadvantage roll?")
+    advantage = [
+        Fore.GREEN + "Advantage",
+        Fore.RED + "Disadvantage",
+        Fore.BLUE + "Normal Roll"
+    ]
+    advantage_roll = advantage[cutie.select(advantage)]
     # Prints the result
     print(Fore.GREEN + "\nDice Summary")
     print(f"\n\u001b[36mThe individual dice rolls were: \u001b[33m{dice_rolls}")
     print(f"\u001b[31mThe total of all dice is: \u001b[37m{sum(dice_rolls)}")
-    print(f"\u001b[35mThe sum of all dice rolls plus the modifier was: \u001b[30;47m{sum(dice_rolls) + modifier_num}")
+    print(f"\u001b[35mThe sum of all dice rolls plus the modifier was: \u001b[32m{sum(dice_rolls) + modifier_num}")
     if cutie.prompt_yes_or_no(Fore.YELLOW + "Would you like to roll more dice?"):
         # Begins the dice-rolling function again
         diceroller()
@@ -72,6 +77,20 @@ def fluff():
     Asks the user if they want to generate a person (NPC) or place, takes user input for predefined features
     of the entity and then generates an entity by drawing from predefined lists of characteristics
     """
+    # Asks the user whether they want to generate a person or place and assigns the selection to chosen_option
+    print(f"Do you want to generate a \u001b[32mPerson \u001b[37mor a \u001b[31mPlace?\n")
+    options = [
+        Fore.GREEN + "Person (NPC)",
+        Fore.RED + "Place",
+        Back.RED + "Go Back"
+    ]
+    chosen_option = options[cutie.select(options)]
+    if "Person" in chosen_option:
+        pass
+    elif "Place" in chosen_option:
+        pass
+    else:
+        main()
     
 def function_selection(chosen_function):
     """
@@ -83,6 +102,7 @@ def function_selection(chosen_function):
         diceroller()
     elif "Fluff" in chosen_function:
         print(f"Starting" + Fore.CYAN + " Fluff" + Fore.RESET + "...")
+        fluff()
     else: 
         print(Back.RED + "Exiting DNDUtils" + Back.RESET + "...")
 
@@ -90,10 +110,8 @@ def main():
     """
     Runs the main program function sequence
     """
-    chosen_function = introduction() # 
+    chosen_function = introduction()
     function_selection(chosen_function)
 
-# main()
-place_names = PLACES_LISTS_SHEET.get("A2:A51")
-random_place_name = place_names[random.randint(1, 51)][0]
-print(random_place_name)
+main()
+
