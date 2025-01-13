@@ -59,7 +59,9 @@ def diceroller():
         Fore.RED + "Disadvantage",
         Fore.BLUE + "Normal Roll"
     ]
+    # Asks the user to select whether the roll has Advantage, Disadvantage, or Neither
     advantage_roll = advantage[cutie.select(advantage)]
+    # Disadvantage Rolls roll two sets of dice, and pick the worse of the two outcomes
     if "Disadvantage" in advantage_roll:
         roll_one = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
         roll_two = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
@@ -67,6 +69,7 @@ def diceroller():
             dice_rolls = roll_two
         else:
             dice_rolls = roll_one
+    # Advantage Rolls roll two sets of dice, and pick the better of the two outcomes
     elif "Advantage" in advantage_roll:
         roll_one = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
         roll_two = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
