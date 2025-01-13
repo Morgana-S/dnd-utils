@@ -73,11 +73,11 @@ def fluff():
     of the entity and then generates an entity by drawing from predefined lists of characteristics
     """
     
-
 def function_selection(chosen_function):
     """
     Starts the user's chosen function
     """
+    # Checks the string in chosen_function and starts the appropriate part of the program
     if "DiceRoller" in chosen_function:
         print(f"Starting" + Fore.YELLOW + " DiceRoller" + Fore.RESET + "...")
         diceroller()
@@ -87,7 +87,10 @@ def function_selection(chosen_function):
         print(Back.RED + "Exiting DNDUtils" + Back.RESET + "...")
 
 def main():
-    chosen_function = introduction()
+    """
+    Runs the main program function sequence
+    """
+    chosen_function = introduction() # 
     function_selection(chosen_function)
 
 # main()
