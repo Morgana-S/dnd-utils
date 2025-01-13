@@ -60,6 +60,20 @@ def diceroller():
         Fore.BLUE + "Normal Roll"
     ]
     advantage_roll = advantage[cutie.select(advantage)]
+    if "Disadvantage" in advantage_roll:
+        roll_one = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
+        roll_two = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
+        if roll_one > roll_two:
+            dice_rolls = roll_two
+        else:
+            dice_rolls = roll_one
+    elif "Advantage" in advantage_roll:
+        roll_one = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
+        roll_two = [random.randint(1, num_of_sides) for value in range(num_of_dice)]
+        if roll_one > roll_two:
+            dice_rolls = roll_one
+        else:
+            dice_rolls = roll_two
     # Prints the result
     print(Fore.GREEN + "\nDice Summary")
     print(f"\n\u001b[36mThe individual dice rolls were: \u001b[33m{dice_rolls}")
