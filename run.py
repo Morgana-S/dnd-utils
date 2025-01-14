@@ -194,7 +194,7 @@ def fluff():
             if rumor not in rumors:
                 rumors.append(rumor)
         print("Character Generated!\n")
-        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}"
+        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
         print(description)
         if cutie.prompt_yes_or_no("Would you like to copy this description to your clipboard?"):
             pyperclip.copy(plaintext_description)
@@ -203,7 +203,66 @@ def fluff():
         else:
             main()
     elif "Place" in chosen_option:
-        pass
+        print(f"Please select applicable tags for the place to be generated.")
+        location_type_tags = [
+            "\u001b[34mTown",
+            "\u001b[31mDungeon",
+            "\u001b[32mPOI (Point of Interest)"
+        ]
+        location_type = location_type_tags[cutie.select(location_type_tags)]
+        age = random.randint(3, 250)
+        print(f"Generating {location_type}\u001b[0m...")
+        if "Town" in location_type:
+            name_import_list = PLACES_LISTS_SHEET.col_values(1)
+            name_list = [name for name in name_import_list[1:51]]
+            name = name_list[random.randint(0,50)]
+            leadership_import_list = PLACES_LISTS_SHEET.col_values(4)
+            leadership_list = [leadership for leadership in leadership_import_list[1:16]]
+            leadership = leadership_list[random.randint(0,15)]
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
+            rumors_list = [rumor for rumor in rumors_import_list[1:17]]
+            rumors = []
+            if "dog" in leadership:
+                rumors.append(rumors_list[15])
+            while len(rumors) < 2:
+                rumor = rumors_list[random.randint(0,15)]
+                if rumor not in rumors:
+                    rumors.append(rumor)
+            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
+            print(f"{location_type}\u001b[0m Generated!\n")
+        elif "Dungeon" in location_type:
+            name_import_list = PLACES_LISTS_SHEET.col_values(2)
+            name_list = [name for name in name_import_list[1:21]]
+            name = name_list[random.randint(0,20)]
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(6)
+            rumors_list = [rumor for rumor in rumors_import_list[1:17]]
+            rumors = []
+            while len(rumors) < 2:
+                rumor = rumors_list[random.randint(0, 15)]
+                if rumor not in rumors:
+                    rumors.append(rumor)
+            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
+            print(f"{location_type} \u001b[0mGenerated!\n")
+        else:
+            name_import_list = PLACES_LISTS_SHEET.col_values(3)
+            name_list = [name for name in name_import_list[1:21]]
+            name = name_list[random.randint(0,19)]
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(7)
+            rumors_list = [rumor for rumor in rumors_import_list[1:16]]
+            rumors = []
+            while len(rumors) < 2:
+                rumor = rumors_list[random.randint(0, 14)]
+                if rumor not in rumors:
+                    rumors.append(rumor)
+            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
+            print(f"{location_type} \u001b[0mGenerated!\n")
+        print(description)
+        if cutie.prompt_yes_or_no("Copy this description to your clipboard?"):
+            pyperclip.copy(description)
+        if cutie.prompt_yes_or_no("Create a new place or NPC?"):
+            fluff()
+        else:
+            main()
     else:
         main()
     
