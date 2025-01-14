@@ -6,6 +6,7 @@ init(autoreset = True)
 import cutie
 import random
 from tabulate import tabulate
+import pyperclip
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -22,6 +23,28 @@ CHARACTERS_SHEET = SHEET.worksheet("characters")
 CHARACTERS_LISTS_SHEET = SHEET.worksheet("characters_lists")
 PLACES_SHEET = SHEET.worksheet("places")
 PLACES_LISTS_SHEET = SHEET.worksheet("places_lists")
+
+class NPC:
+    """
+    Creates an instance of NPC
+    """
+    def __init__(self, name, age, gender, race, law_tag, moral_tag, hair_color, skin_color, disposition):
+        self.name = name
+        self.age = age
+        self.gender = gender
+        self.race = race
+        self.law = law_tag
+        self.morality = moral_tag
+        self.hair_color = hair_color
+        self.skin_color = skin_color
+        self.disposition = disposition
+    
+    def description(self):
+        """
+        Returns a description of the NPC
+        """
+        return f"This is {self.name}. They are a {self.race}.\n They are {self.age} years old. Their alignment is {self.law} {self.morality}.\n Their hair is {self.hair_color} and they have {self.skin_color} skin.\n Their attitude towards you is {self.disposition}."
+    
 
 
 
@@ -106,18 +129,79 @@ def fluff():
         print(f"Please select applicable tags for the character to be generated.")
         law_tags = [
             "Law Alignment:",
-            "Lawful",
-            "Neutral",
-            "Chaotic",
+            Fore.CYAN + "Lawful",
+            Fore.GREEN + "Neutral",
+            Fore.RED + "Chaotic",
         ]
         law_tag = law_tags[cutie.select(law_tags, caption_indices = [0])]
         moral_tags = [
             "Moral Alignment:",
-            "Good",
-            "Neutral",
-            "Evil"
+            Fore.YELLOW + "Good",
+            Fore.BLUE + "Neutral",
+            Back.RED + "Evil",
         ]
         moral_tag = moral_tags[cutie.select(moral_tags, caption_indices = [0])]
+        if "Neutral" in law_tag and "Neutral" in moral_tag:
+            law_tag = Fore.GREEN + "True"
+        print(f"Generating Person (NPC)...")
+        # Generates the characteristics for the NPC
+        f_name_import_list = CHARACTERS_LISTS_SHEET.col_values(2)
+        f_name_list = [name for name in f_name_import_list[1:51]]
+        l_name_import_list = CHARACTERS_LISTS_SHEET.col_values(3)
+        l_name_list = [name for name in l_name_import_list[1:62]]
+        f_name = f_name_list[random.randint(0,50)]
+        l_name = l_name_list[random.randint(0,61)]
+        name = f_name + " " + l_name
+        age = random.randint(19, 70)
+        race_import_list = CHARACTERS_LISTS_SHEET.col_values(1)
+        race_list = [race for race in race_import_list[1:48]]
+        race = race_list[random.randint(0,46)]
+        if "Elf" in race:
+            age = age * 10
+        gender_list = [
+           "\u001b[34mMale",
+           "\u001b[31mFemale",
+           "\u001b[33mNon-binary",
+           "\u001b[32mUnknown"
+        ]
+        gender = gender_list[random.randint(0,3)]
+        if "Female" in gender:
+            gender_pronouns = [
+                "She is",
+                "Her",
+                "Hers"
+            ]
+        elif "Male" in gender:
+            gender_pronouns = [
+                "He is",
+                "Him",
+                "His"
+            ]
+        else:
+            gender_pronouns = [
+                "They are",
+                "Them",
+                "Theirs"
+            ]
+        hair_color_import_list = CHARACTERS_LISTS_SHEET.col_values(4)
+        hair_color_list = [color for color in hair_color_import_list[1:31]]
+        hair_color = hair_color_list[random.randint(0,29)]
+        rumors_import_list = CHARACTERS_LISTS_SHEET.col_values(5)
+        rumors_list = [rumor for rumor in rumors_import_list[1:41]]
+        rumors = []
+        while len(rumors) < 2:
+            rumor = rumors_list[random.randint(0,39)]
+            if rumor not in rumors:
+                rumors.append(rumor)
+        print("Character Generated!\n")
+        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}"
+        print(description)
+        if cutie.prompt_yes_or_no("Would you like to copy this description to your clipboard?"):
+            pyperclip.copy(plaintext_description)
+        if cutie.prompt_yes_or_no("Would you like to create a new NPC or place?"):
+            fluff()
+        else:
+            main()
     elif "Place" in chosen_option:
         pass
     else:
@@ -145,4 +229,3 @@ def main():
     function_selection(chosen_function)
 
 main()
-
