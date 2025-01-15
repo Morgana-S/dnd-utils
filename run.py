@@ -248,6 +248,17 @@ def fluff():
             leadership_list = [leadership for leadership in leadership_import_list[1:16]]
             leadership = leadership_list[random.randint(0,14)]
             rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
+            disposition = random.randint(-100, 100)
+            if disposition < -50:
+                disposition_text = "(They hate the players.)"
+            elif disposition < 0:
+                disposition_text = "(They dislike the players.)"
+            elif 0 <= disposition <= 10:
+                disposition_text = "(They feel neutral about the players.)"
+            elif disposition < 50:
+                disposition_text = "(They like the players.)"
+            else:
+                disposition_text = "(They love the players, platonically speaking.)"
         elif "Dungeon" in location_type:
             location_type_plaintext = "Dungeon"
             name_import_list = PLACES_LISTS_SHEET.col_values(2)
@@ -265,8 +276,8 @@ def fluff():
             if rumor not in rumors:
                 rumors.append(rumor)
         if "Town" in location_type:
-            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
-            description_plaintext = f"Your {location_type_plaintext} is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
+            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}"
+            description_plaintext = f"Your {location_type_plaintext} is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}"
         else:
             description = f"Your {location_type}\u001b[0m is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
             description_plaintext = f"Your {location_type_plaintext} is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
