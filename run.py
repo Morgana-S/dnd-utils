@@ -36,7 +36,6 @@ class NPC:
         self.law = law_tag
         self.morality = moral_tag
         self.hair_color = hair_color
-        self.skin_color = skin_color
         self.disposition = disposition
     
     def description(self):
@@ -211,9 +210,20 @@ def fluff():
             rumor = rumors_list[random.randint(0,39)]
             if rumor not in rumors:
                 rumors.append(rumor)
+        disposition = random.randint(-100, 100)
+        if disposition < -50:
+            disposition_text = "(They hate the players.)"
+        elif disposition < 0:
+            disposition_text = "(They dislike the players.)"
+        elif 0 <= disposition <= 10:
+            disposition_text = "(They feel neutral about the players.)"
+        elif disposition < 50:
+            disposition_text = "(They like the players.)"
+        else:
+            disposition_text = "(They love the players, platonically speaking.)"
         print("Character Generated!\n")
-        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
-        description_plaintext = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender_plaintext} {race}.\n{gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
+        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}\n"
+        description_plaintext = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender_plaintext} {race}.\n{gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}\n"
         print(description)
         if cutie.prompt_yes_or_no("Would you like to copy this description to your clipboard?"):
             pyperclip.copy(description_plaintext)
