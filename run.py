@@ -1,11 +1,9 @@
 import gspread
 from google.oauth2.service_account import Credentials
-import json
 from colorama import Fore, Back, Style, init
 init(autoreset = True)
 import cutie
 import random
-from tabulate import tabulate
 import pyperclip
 
 SCOPE = [
