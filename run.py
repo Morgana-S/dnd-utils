@@ -28,7 +28,7 @@ class NPC:
     """
     Creates an instance of NPC
     """
-    def __init__(self, name, age, gender, race, law_tag, moral_tag, hair_color, skin_color, disposition):
+    def __init__(self, name, age, gender, race, law_tag, moral_tag, hair_color, disposition, disposition_text):
         self.name = name
         self.age = age
         self.gender = gender
@@ -37,13 +37,26 @@ class NPC:
         self.morality = moral_tag
         self.hair_color = hair_color
         self.disposition = disposition
-    
-    def description(self):
-        """
-        Returns a description of the NPC
-        """
-        return f"This is {self.name}. They are a {self.race}.\n They are {self.age} years old. Their alignment is {self.law} {self.morality}.\n Their hair is {self.hair_color} and they have {self.skin_color} skin.\n Their attitude towards you is {self.disposition}."
-    
+        self.disposition_text = disposition_text
+
+class Place:
+    """
+    Creates an instance of Place
+    """
+    def __init__(self, name, rumors):
+        self.name = name
+        self.rumors = rumors
+
+class Town(Place):
+    """
+    Creates an instance of the subclass Town, to be used only with "Town" places.
+    """
+    def __init__(self, name, rumors, leadership, disposition, disposition_text):
+        super().__init__(name, rumors)
+        self.leadership = leadership
+        self.disposition = disposition
+        self.disposition_text = disposition_text
+
 
 
 
