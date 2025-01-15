@@ -176,27 +176,30 @@ def fluff():
            "\u001b[31mFemale",
            "\u001b[33mNon-binary",
         ]
-        gender = gender_list[random.randint(0,3)]
+        gender = gender_list[random.randint(0,2)]
         if "Female" in gender:
             gender_plaintext = "Female"
             gender_pronouns = [
                 "She is",
                 "Her",
-                "Hers"
+                "Hers",
+                "She has"
             ]
         elif "Male" in gender:
             gender_plaintext = "Male"
             gender_pronouns = [
                 "He is",
                 "Him",
-                "His"
+                "His",
+                "He has"
             ]
         else:
             gender_plaintext = "Non-binary"
             gender_pronouns = [
                 "They are",
                 "Them",
-                "Theirs"
+                "Theirs",
+                "They have"
             ]
         hair_color_import_list = CHARACTERS_LISTS_SHEET.col_values(4)
         hair_color_list = [color for color in hair_color_import_list[1:31]]
@@ -209,8 +212,8 @@ def fluff():
             if rumor not in rumors:
                 rumors.append(rumor)
         print("Character Generated!\n")
-        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
-        description_plaintext = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender_plaintext} {race}.\n{gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
+        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
+        description_plaintext = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender_plaintext} {race}.\n{gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\n"
         print(description)
         if cutie.prompt_yes_or_no("Would you like to copy this description to your clipboard?"):
             pyperclip.copy(description_plaintext)
