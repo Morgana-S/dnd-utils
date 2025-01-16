@@ -129,7 +129,7 @@ def diceroller():
         )
     # Number of Sides on Each Dice
     print(
-        Back.WHITE + 
+        Back.WHITE +
         "Please type in the number of sides "
         "on each dice and hit ENTER.\n"
         )
@@ -192,7 +192,7 @@ def diceroller():
     # Prints the result
     print(Fore.GREEN + "\nDice Summary")
     print(
-        f"\n\u001b[36mThe individual dice rolls were:" 
+        f"\n\u001b[36mThe individual dice rolls were:"
         f"\u001b[33m{dice_rolls}"
         )
     print(f"\u001b[31mThe total of all dice is: \u001b[37m{sum(dice_rolls)}")
@@ -358,28 +358,33 @@ def fluff():
             "platonically speaking.)"
         print("Character Generated!\n")
         # Outlines the description of the generated NPC
-        description = f"Your NPC is named '{npc_name}'.\n"
-        f"{npc_gender_pronouns[0]} {npc_age} years old. "
-        f"{npc_gender_pronouns[0]} a "
-        f"{npc_gender}\u001b[0m {npc_race}.\n"
-        f"{npc_gender_pronouns[0]} {npc_law_tag} {npc_moral_tag}\u001b[0m.\n"
-        f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
-        f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
-        f"{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards "
-        f"the players is {npc_disposition} {npc_disposition_text}\n"
-        # Creates a plaintext version of the description to be copied 
-        # by pyperclip - this avoids escape characters 
+        description = (
+            f"Your NPC is named '{npc_name}'.\n"
+            f"{npc_gender_pronouns[0]} {npc_age} years old. "
+            f"{npc_gender_pronouns[0]} a "
+            f"{npc_gender}\u001b[0m {npc_race}.\n"
+            f"{npc_gender_pronouns[0]} {npc_law_tag} "
+            f"{npc_moral_tag}\u001b[0m.\n"
+            f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
+            f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
+            f"{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards "
+            f"the players is {npc_disposition} {npc_disposition_text}\n"
+        )
+        # Creates a plaintext version of the description to be copied
+        # by pyperclip - this avoids escape characters
         # showing in the description
-        description_plaintext = f"Your NPC is named '{npc_name}'.\n"
-        f"{npc_gender_pronouns[0]} {npc_age} years old. "
-        f"{npc_gender_pronouns[0]} a{gender_plaintext} {npc_race}.\n"
-        f"{npc_gender_pronouns[0]} {law_tag_plaintext} "
-        f"{moral_tag_plaintext}.\n"
-        f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
-        f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
-        f"{npc_rumors[0]}, {npc_rumors[1]}\n"
-        f"Their disposition towards the players is {npc_disposition} "
-        f"{npc_disposition_text}\n"
+        description_plaintext = (
+            f"Your NPC is named '{npc_name}'.\n"
+            f"{npc_gender_pronouns[0]} {npc_age} years old. "
+            f"{npc_gender_pronouns[0]} a {gender_plaintext} {npc_race}.\n"
+            f"{npc_gender_pronouns[0]} {law_tag_plaintext} "
+            f"{moral_tag_plaintext}.\n"
+            f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
+            f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
+            f"{npc_rumors[0]}, {npc_rumors[1]}\n"
+            f"Their disposition towards the players is {npc_disposition} "
+            f"{npc_disposition_text}\n"
+        )
         print(description)
         # Asks if the user wants to copy the NPC's plaintext description
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
@@ -426,7 +431,7 @@ def fluff():
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
               "and select your option by hitting ENTER.\n" + Back.RESET)
         print("Please select applicable tags for the place to be generated.")
-        # Asks the user to select a location type 
+        # Asks the user to select a location type
         # towns have different attributes compared to dungeons or POIs
         location_type_tags = [
             "\u001b[34mTown",
@@ -442,7 +447,7 @@ def fluff():
         if "Town" in place_location_type:
             # Generates the location type in plaintext to be copied later
             location_type_plaintext = "Town"
-            # Calls the correct list of names for the location type 
+            # Calls the correct list of names for the location type
             # to be imported from the Google Sheet
             name_import_list = PLACES_LISTS_SHEET.col_values(1)
             # Generates a leadership type for the town
@@ -450,10 +455,10 @@ def fluff():
             leadership_list = [
                 leadership for leadership in leadership_import_list[1:16]]
             place_leadership = leadership_list[random.randint(0, 14)]
-            # Calls the correct list of rumors for the location type 
+            # Calls the correct list of rumors for the location type
             # from the Google Sheet
             rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
-            # Generates a disposition and disposition text for the town 
+            # Generates a disposition and disposition text for the town
             # towards the players
             place_disposition = random.randint(-100, 100)
             if place_disposition < -50:
@@ -498,34 +503,49 @@ def fluff():
                 place_rumors.append(rumor)
         # Town Specific Description (includes leadership and disposition)
         if "Town" in place_location_type:
-            description = f"Your {place_location_type}\u001b[0m is called "
-            f"{place_name}.\nIt was founded {place_age} years ago.\n"
-            f"It is currently led by {place_leadership}.\n"
-            f"Notable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
-            f"Their disposition towards the players is {place_disposition} "
-            f"{place_disposition_text}"
+            description = (
+                f"Your {place_location_type}\u001b[0m is called "
+                f"{place_name}.\nIt was founded {place_age} years ago.\n"
+                f"It is currently led by {place_leadership}.\n"
+                f"Notable rumors include:\n"
+                f"{place_rumors[0]}, {place_rumors[1]}\n"
+                f"Their disposition towards the players "
+                f"is {place_disposition} "
+                f"{place_disposition_text}"
+            )
             # Plaintext version of the description - removes color codes
             # for smoother copy-pasting
-            description_plaintext = f"Your {location_type_plaintext} is "
-            f"called {place_name}.\nIt was founded {place_age} years ago.\n"
-            f"It is currently led by {place_leadership}.\n"
-            f"Notable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
-            f"Their disposition towards the players is {place_disposition} "
-            f"{place_disposition_text}"
+            description_plaintext = (
+                f"Your {location_type_plaintext} is "
+                f"called {place_name}.\nIt was founded "
+                f"{place_age} years ago.\n"
+                f"It is currently led by {place_leadership}.\n"
+                f"Notable rumors include:"
+                f"\n{place_rumors[0]}, {place_rumors[1]}\n"
+                f"Their disposition towards the players "
+                f"is {place_disposition} "
+                f"{place_disposition_text}"
+            )
         # Dungeon and POI Description
         else:
-            description = f"Your {place_location_type}\u001b[0m is called "
-            f"{place_name}.\nIt was discovered {place_age} years ago.\n"
-            f"Notable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
+            description = (
+                f"Your {place_location_type}\u001b[0m is called "
+                f"{place_name}.\nIt was discovered {place_age} years ago.\n"
+                f"Notable rumors include:\n"
+                f"{place_rumors[0]}, {place_rumors[1]}\n"
+            )
             # Plaintext version of the description
             # removes color codes for smoother copy-pasting
-            description_plaintext = f"Your {location_type_plaintext} is "
-            f"called {place_name}.\n"
-            f"It was discovered {place_age} years ago.\n"
-            f"Notable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
+            description_plaintext = (
+                f"Your {location_type_plaintext} is "
+                f"called {place_name}.\n"
+                f"It was discovered {place_age} years ago.\n"
+                f"Notable rumors include:\n"
+                f"{place_rumors[0]}, {place_rumors[1]}\n"
+            )
         print(f"{place_location_type}\u001b[0m Generated!\n")
         print(description)
-        # Asks if the user wants to copy the plaintext version 
+        # Asks if the user wants to copy the plaintext version
         # of the place's description
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
               "and select your option by hitting ENTER.\n" + Back.RESET)
@@ -576,7 +596,7 @@ def function_selection(chosen_function):
     """
     Starts the user's chosen function
     """
-    # Checks the string in chosen_function and starts the 
+    # Checks the string in chosen_function and starts the
     # appropriate part of the program
     if "DiceRoller" in chosen_function:
         print("Starting" + Fore.YELLOW + " DiceRoller" + Fore.RESET + "...")
@@ -598,4 +618,5 @@ def main():
     # Takes the user to their chosen function
     function_selection(chosen_function)
 
-# main()
+
+main()
