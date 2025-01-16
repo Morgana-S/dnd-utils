@@ -22,8 +22,8 @@ CHARACTERS_SHEET = SHEET.worksheet("characters")
 CHARACTERS_LISTS_SHEET = SHEET.worksheet("characters_lists")
 PLACES_SHEET = SHEET.worksheet("places")
 PLACES_LISTS_SHEET = SHEET.worksheet("places_lists")
-all_places = PLACES_SHEET.get_all_records()
-all_characters = CHARACTERS_SHEET.get_all_records()
+ALL_PLACES = PLACES_SHEET.get_all_records()
+ALL_CHARACTERS = CHARACTERS_SHEET.get_all_records()
 
 
 class NPC:
