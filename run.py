@@ -5,6 +5,7 @@ init(autoreset = True)
 import cutie
 import random
 import pyperclip
+from tabulate import tabulate
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -41,16 +42,17 @@ class Place:
     """
     Creates an instance of Place.
     """
-    def __init__(self, name, rumors):
+    def __init__(self, name, age, rumors):
         self.name = name
+        self.age = age
         self.rumors = rumors
 
 class Town(Place):
     """
     Creates an instance of the subclass Town, to be used only with "Town" places.
     """
-    def __init__(self, name, rumors, leadership, disposition, disposition_text):
-        super().__init__(name, rumors)
+    def __init__(self, name, age, rumors, leadership, disposition, disposition_text):
+        super().__init__(name, age, rumors)
         self.leadership = leadership
         self.disposition = disposition
         self.disposition_text = disposition_text
@@ -154,11 +156,11 @@ def fluff():
             Fore.GREEN + "Neutral",
             Fore.RED + "Chaotic",
         ]
-        law_tag = law_tags[cutie.select(law_tags, caption_indices = [0])]
+        npc_law_tag = law_tags[cutie.select(law_tags, caption_indices = [0])]
         # Creates a plaintext version of the chosen lawfulness tag
-        if "Lawful" in law_tag:
+        if "Lawful" in npc_law_tag:
             law_tag_plaintext = "Lawful"
-        elif "Neutral" in law_tag:
+        elif "Neutral" in npc_law_tag:
             law_tag_plaintext = "Neutral"
         else:
             law_tag_plaintext = "Chaotic"
@@ -170,17 +172,17 @@ def fluff():
             Fore.BLUE + "Neutral",
             Back.RED + "Evil",
         ]
-        moral_tag = moral_tags[cutie.select(moral_tags, caption_indices = [0])]
+        npc_moral_tag = moral_tags[cutie.select(moral_tags, caption_indices = [0])]
         # Creates a plaintext version of the chosen morality tag
-        if "Good" in moral_tag:
+        if "Good" in npc_moral_tag:
             moral_tag_plaintext = "Good"
-        elif "Neutral" in moral_tag:
+        elif "Neutral" in npc_moral_tag:
             moral_tag_plaintext = "Neutral"
         else:
             moral_tag_plaintext = "Evil"
         # If "Neutral" is picked for lawfulness and morality, changes the "lawfulness" tag to "True" to avoid duplication
-        if "Neutral" in law_tag and "Neutral" in moral_tag:
-            law_tag = Fore.GREEN + "True"
+        if "Neutral" in npc_law_tag and "Neutral" in npc_moral_tag:
+            npc_law_tag = Fore.GREEN + "True"
             law_tag_plaintext = "True"
         print(f"Generating Person (NPC)...")
         # Generates the name for the NPC
@@ -190,35 +192,35 @@ def fluff():
         l_name_list = [name for name in l_name_import_list[1:62]]
         f_name = f_name_list[random.randint(0,50)]
         l_name = l_name_list[random.randint(0,61)]
-        name = f_name + " " + l_name
+        npc_name = f_name + " " + l_name
         # Generates a random age for the NPC
-        age = random.randint(19, 70)
+        npc_age = random.randint(19, 70)
         # Generates a random race for the NPC
         race_import_list = CHARACTERS_LISTS_SHEET.col_values(1)
         race_list = [race for race in race_import_list[1:48]]
-        race = race_list[random.randint(0,46)]
+        npc_race = race_list[random.randint(0,46)]
         # Elves typically live much longer than other races - multiplies the age by 10 if race is an Elf
-        if "Elf" in race:
-            age = age * 10
+        if "Elf" in npc_race:
+            npc_age = npc_age * 10
         # Generates a random gender for the NPC
         gender_list = [
            "\u001b[34mMale",
            "\u001b[31mFemale",
            "\u001b[33mNon-binary",
         ]
-        gender = gender_list[random.randint(0,2)]
+        npc_gender = gender_list[random.randint(0,2)]
         # Generates the plaintext version of the gender as well as their gender pronouns
-        if "Female" in gender:
+        if "Female" in npc_gender:
             gender_plaintext = "Female"
-            gender_pronouns = [
+            npc_gender_pronouns = [
                 "She is",
                 "Her",
                 "Hers",
                 "She has"
             ]
-        elif "Male" in gender:
+        elif "Male" in npc_gender:
             gender_plaintext = "Male"
-            gender_pronouns = [
+            npc_gender_pronouns = [
                 "He is",
                 "Him",
                 "His",
@@ -226,7 +228,7 @@ def fluff():
             ]
         else:
             gender_plaintext = "Non-binary"
-            gender_pronouns = [
+            npc_gender_pronouns = [
                 "They are",
                 "Them",
                 "Theirs",
@@ -235,37 +237,59 @@ def fluff():
         # Generates the NPC's hair color
         hair_color_import_list = CHARACTERS_LISTS_SHEET.col_values(4)
         hair_color_list = [color for color in hair_color_import_list[1:31]]
-        hair_color = hair_color_list[random.randint(0,29)]
+        npc_hair_color = hair_color_list[random.randint(0,29)]
         # Generates two rumors the NPC is associated with
         rumors_import_list = CHARACTERS_LISTS_SHEET.col_values(5)
         rumors_list = [rumor for rumor in rumors_import_list[1:41]]
-        rumors = []
-        while len(rumors) < 2:
+        npc_rumors = []
+        while len(npc_rumors) < 2:
             rumor = rumors_list[random.randint(0,39)]
-            if rumor not in rumors:
-                rumors.append(rumor)
+            if rumor not in npc_rumors:
+                npc_rumors.append(rumor)
         # Generates the NPC's disposition and disposition text
-        disposition = random.randint(-100, 100)
-        if disposition < -50:
-            disposition_text = "(They hate the players.)"
-        elif disposition < 0:
-            disposition_text = "(They dislike the players.)"
-        elif 0 <= disposition <= 10:
-            disposition_text = "(They feel neutral about the players.)"
-        elif disposition < 50:
-            disposition_text = "(They like the players.)"
+        npc_disposition = random.randint(-100, 100)
+        if npc_disposition < -50:
+            npc_disposition_text = "(They hate the players.)"
+        elif npc_disposition < 0:
+            npc_disposition_text = "(They dislike the players.)"
+        elif 0 <= npc_disposition <= 10:
+            npc_disposition_text = "(They feel neutral about the players.)"
+        elif npc_disposition < 50:
+            npc_disposition_text = "(They like the players.)"
         else:
-            disposition_text = "(They love the players, platonically speaking.)"
+            npc_disposition_text = "(They love the players, platonically speaking.)"
         print("Character Generated!\n")
         # Outlines the description of the generated NPC
-        description = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender}\u001b[0m {race}.\n{gender_pronouns[0]} {law_tag} {moral_tag}\u001b[0m.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}\n"
+        description = f"Your NPC is named '{npc_name}'.\n{npc_gender_pronouns[0]} {npc_age} years old. {npc_gender_pronouns[0]} a {npc_gender}\u001b[0m {npc_race}.\n{npc_gender_pronouns[0]} {npc_law_tag} {npc_moral_tag}\u001b[0m.\n{npc_gender_pronouns[3]} {npc_hair_color} hair.\n{npc_gender_pronouns[0]} associated with the following rumors:\n{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards the players is {npc_disposition} {npc_disposition_text}\n"
         # Creates a plaintext version of the description to be copied by pyperclip - this avoids escape characters showing in the description
-        description_plaintext = f"Your NPC is named '{name}'.\n{gender_pronouns[0]} {age} years old. {gender_pronouns[0]} a {gender_plaintext} {race}.\n{gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{gender_pronouns[3]} {hair_color} hair.\n{gender_pronouns[0]} associated with the following rumors:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}\n"
+        description_plaintext = f"Your NPC is named '{npc_name}'.\n{npc_gender_pronouns[0]} {npc_age} years old. {npc_gender_pronouns[0]} a {gender_plaintext} {npc_race}.\n{npc_gender_pronouns[0]} {law_tag_plaintext} {moral_tag_plaintext}.\n{npc_gender_pronouns[3]} {npc_hair_color} hair.\n{npc_gender_pronouns[0]} associated with the following rumors:\n{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards the players is {npc_disposition} {npc_disposition_text}\n"
         print(description)
         # Asks if the user wants to copy the NPC's plaintext description
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Would you like to copy this description to your clipboard?"):
             pyperclip.copy(description_plaintext)
+        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
+        if cutie.prompt_yes_or_no("Convert this NPC to an object?"):
+            print(Fore.YELLOW + "Converting to Object and saving in Spreadsheet...")
+            new_instance = dict(
+                name = npc_name,
+                law_tag = law_tag_plaintext,
+                moral_tag = moral_tag_plaintext, 
+                age = npc_age, 
+                race = npc_race,
+                gender = gender_plaintext, 
+                gender_pronouns_1 = npc_gender_pronouns[0], 
+                gender_pronouns_2 = npc_gender_pronouns[1], 
+                gender_pronouns_3 = npc_gender_pronouns[2], 
+                gender_pronouns_4 = npc_gender_pronouns[3], 
+                hair_color = npc_hair_color, 
+                rumor_1 = npc_rumors[0], 
+                rumor_2 = npc_rumors[1], 
+                disposition = npc_disposition, 
+                disposition_text = npc_disposition_text
+                )
+            new_instance_list = [value for value in new_instance.values()]
+            CHARACTERS_SHEET.append_row(new_instance_list, table_range = "A1:O1")
         # Asks if the user wants to create another NPC or place
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Would you like to create a new NPC or place?"):
@@ -284,12 +308,12 @@ def fluff():
             "\u001b[31mDungeon",
             "\u001b[32mPOI (Point of Interest)"
         ]
-        location_type = location_type_tags[cutie.select(location_type_tags)]
+        place_location_type = location_type_tags[cutie.select(location_type_tags)]
         # Generates a random age for the place between 3 and 250 years
-        age = random.randint(3, 250)
-        print(f"Generating {location_type}\u001b[0m...")
+        place_age = random.randint(3, 250)
+        print(f"Generating {place_location_type}\u001b[0m...")
         # Town Specific Generation
-        if "Town" in location_type:
+        if "Town" in place_location_type:
             # Generates the location type in plaintext to be copied later
             location_type_plaintext = "Town"
             # Calls the correct list of names for the location type to be imported from the Google Sheet
@@ -297,23 +321,23 @@ def fluff():
             # Generates a leadership type for the town
             leadership_import_list = PLACES_LISTS_SHEET.col_values(4)
             leadership_list = [leadership for leadership in leadership_import_list[1:16]]
-            leadership = leadership_list[random.randint(0,14)]
+            place_leadership = leadership_list[random.randint(0,14)]
             # Calls the correct list of rumors for the location type from the Google Sheet
             rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
             # Generates a disposition and disposition text for the town towards the players
-            disposition = random.randint(-100, 100)
-            if disposition < -50:
-                disposition_text = "(They hate the players.)"
-            elif disposition < 0:
-                disposition_text = "(They dislike the players.)"
-            elif 0 <= disposition <= 10:
-                disposition_text = "(They feel neutral about the players.)"
-            elif disposition < 50:
-                disposition_text = "(They like the players.)"
+            place_disposition = random.randint(-100, 100)
+            if place_disposition < -50:
+                place_disposition_text = "(They hate the players.)"
+            elif place_disposition < 0:
+                place_disposition_text = "(They dislike the players.)"
+            elif 0 <= place_disposition <= 10:
+                place_disposition_text = "(They feel neutral about the players.)"
+            elif place_disposition < 50:
+                place_disposition_text = "(They like the players.)"
             else:
-                disposition_text = "(They love the players, platonically speaking.)"
+                place_disposition_text = "(They love the players, platonically speaking.)"
         # Dungeon Specific Generation
-        elif "Dungeon" in location_type:
+        elif "Dungeon" in place_location_type:
             # Generates the location type in plaintext to be copied later
             location_type_plaintext = "Dungeon"
             # Calls the correct lists of names and rumors for the location type from the Google Sheet
@@ -328,30 +352,42 @@ def fluff():
             rumors_import_list = PLACES_LISTS_SHEET.col_values(7)
         # Generates a name from the previously imported name list for the location type
         name_list = [name for name in name_import_list[1:51]]
-        name = name_list[random.randint(0, 50)]
+        place_name = name_list[random.randint(0, 50)]
         # Generates two rumors from the previously imported rumor list for the location type
         rumors_list = [rumor for rumor in rumors_import_list[1:17]]
-        rumors = []
-        while len(rumors) < 2:
+        place_rumors = []
+        while len(place_rumors) < 2:
             rumor = rumors_list[random.randint(0, 15)]
-            if rumor not in rumors:
-                rumors.append(rumor)
+            if rumor not in place_rumors:
+                place_rumors.append(rumor)
         # Town Specific Description (includes leadership and disposition)
-        if "Town" in location_type:
-            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}"
+        if "Town" in place_location_type:
+            description = f"Your {place_location_type}\u001b[0m is called {place_name}.\nIt was founded {place_age} years ago.\nIt is currently led by {place_leadership}.\nNotable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\nTheir disposition towards the players is {place_disposition} {place_disposition_text}"
             # Plaintext version of the description - removes color codes for smoother copy-pasting
-            description_plaintext = f"Your {location_type_plaintext} is called {name}.\nIt was founded {age} years ago.\nIt is currently led by {leadership}.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\nTheir disposition towards the players is {disposition} {disposition_text}"
+            description_plaintext = f"Your {location_type_plaintext} is called {place_name}.\nIt was founded {place_age} years ago.\nIt is currently led by {place_leadership}.\nNotable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\nTheir disposition towards the players is {place_disposition} {place_disposition_text}"
         # Dungeon and POI Description
         else:
-            description = f"Your {location_type}\u001b[0m is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
+            description = f"Your {place_location_type}\u001b[0m is called {place_name}.\nIt was discovered {place_age} years ago.\nNotable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
             # Plaintext version of the description - removes color codes for smoother copy-pasting
-            description_plaintext = f"Your {location_type_plaintext} is called {name}.\nIt was discovered {age} years ago.\nNotable rumors include:\n{rumors[0]}, {rumors[1]}\n"
-        print(f"{location_type}\u001b[0m Generated!\n")
+            description_plaintext = f"Your {location_type_plaintext} is called {place_name}.\nIt was discovered {place_age} years ago.\nNotable rumors include:\n{place_rumors[0]}, {place_rumors[1]}\n"
+        print(f"{place_location_type}\u001b[0m Generated!\n")
         print(description)
         # Asks if the user wants to copy the plaintext version of the place's description
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Copy this description to your clipboard?"):
             pyperclip.copy(description_plaintext)
+        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
+        if cutie.prompt_yes_or_no("Convert this place to an object?"):
+            print(Fore.YELLOW + "Converting to object and saving in spreadsheet...")
+            if "Town" in place_location_type:
+                new_instance = dict(location_type = location_type_plaintext, name = place_name, age = place_age, rumor_1 = place_rumors[0], rumor_2 = place_rumors[1], leadership = place_leadership, disposition = place_disposition, disposition_text = place_disposition_text)
+                print(new_instance.values())
+            else:
+                new_instance = dict(location_type = location_type_plaintext, name = place_name, age = place_age, rumor_1 = place_rumors[0], rumor_2 = place_rumors[1])
+                print(new_instance.values())
+            new_instance_list = [value for value in new_instance.values()]
+            print(new_instance_list)
+            PLACES_SHEET.append_row(new_instance_list, table_range = "A1:H1")
         # Asks if the user wants to create a new place or NPC
         print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Create a new place or NPC?"):
