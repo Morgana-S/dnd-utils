@@ -22,6 +22,9 @@ CHARACTERS_SHEET = SHEET.worksheet("characters")
 CHARACTERS_LISTS_SHEET = SHEET.worksheet("characters_lists")
 PLACES_SHEET = SHEET.worksheet("places")
 PLACES_LISTS_SHEET = SHEET.worksheet("places_lists")
+all_places = PLACES_SHEET.get_all_records()
+all_characters = CHARACTERS_SHEET.get_all_records()
+
 
 class NPC:
     """
@@ -380,11 +383,24 @@ def fluff():
         if cutie.prompt_yes_or_no("Convert this place to an object?"):
             print(Fore.YELLOW + "Converting to object and saving in spreadsheet...")
             if "Town" in place_location_type:
-                new_instance = dict(location_type = location_type_plaintext, name = place_name, age = place_age, rumor_1 = place_rumors[0], rumor_2 = place_rumors[1], leadership = place_leadership, disposition = place_disposition, disposition_text = place_disposition_text)
-                print(new_instance.values())
+                new_instance = dict(
+                    location_type = location_type_plaintext, 
+                    name = place_name, 
+                    age = place_age, 
+                    rumor_1 = place_rumors[0], 
+                    rumor_2 = place_rumors[1], 
+                    leadership = place_leadership, 
+                    disposition = place_disposition, 
+                    disposition_text = place_disposition_text
+                )
             else:
-                new_instance = dict(location_type = location_type_plaintext, name = place_name, age = place_age, rumor_1 = place_rumors[0], rumor_2 = place_rumors[1])
-                print(new_instance.values())
+                new_instance = dict(
+                    location_type = location_type_plaintext,
+                    name = place_name, 
+                    age = place_age, 
+                    rumor_1 = place_rumors[0], 
+                    rumor_2 = place_rumors[1]
+                )
             new_instance_list = [value for value in new_instance.values()]
             print(new_instance_list)
             PLACES_SHEET.append_row(new_instance_list, table_range = "A1:H1")
@@ -424,3 +440,4 @@ def main():
     function_selection(chosen_function)
 
 main()
+
