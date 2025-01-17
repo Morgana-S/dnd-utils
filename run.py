@@ -3,7 +3,6 @@ from google.oauth2.service_account import Credentials
 import cutie
 import random
 import pyperclip
-from tabulate import tabulate
 from colorama import Fore, Back, init
 init(autoreset=True)
 
@@ -648,5 +647,4 @@ def main():
     function_selection(chosen_function)
 
 
-# main()
-data_viewer()
+main()
