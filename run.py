@@ -126,8 +126,8 @@ def introduction():
           " - Roll Dice for your DND Game")
     print(Fore.CYAN + "Fluff" + Fore.RESET +
           " - Create NPCs or Places for your DND Game\n")
-    print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-          + "and select your option by hitting ENTER.\n")
+    print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+          "and select your option by hitting ENTER.\n")
     # Defines the available options for function selection
     functions = [
         Fore.YELLOW + "DiceRoller",
@@ -148,7 +148,7 @@ def diceroller():
     # with user input - validates for number-only input
     # Number of Dice to Roll
     print(
-        Back.WHITE +
+        Fore.YELLOW +
         "Please type in the number of dice you want to roll "
         "and hit ENTER.\n"
     )
@@ -157,7 +157,7 @@ def diceroller():
     )
     # Number of Sides on Each Dice
     print(
-        Back.WHITE +
+        Fore.YELLOW +
         "Please type in the number of sides "
         "on each dice and hit ENTER.\n"
     )
@@ -171,7 +171,7 @@ def diceroller():
     # Skill Modifier - DND Skills allow for an additional number
     # to be added to the end of the roll
     print(
-        Back.WHITE +
+        Fore.YELLOW +
         "Please enter the number for the skill "
         "modifier and press ENTER.\n"
     )
@@ -179,11 +179,8 @@ def diceroller():
         "What is the modifier for the roll?", allow_float=False)
     # Asks the user to select whether the roll has
     # Advantage, Disadvantage, or Neither
-    print(
-        Back.WHITE +
-        "Please use the ↑ and ↓ arrow keys to navigate "
-        "and select your option by hitting ENTER.\n"
-    )
+    print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+          "and select your option by hitting ENTER.\n")
     print(
         Fore.YELLOW +
         "Is this an Advantage, Disadvantage, "
@@ -229,8 +226,8 @@ def diceroller():
         f"\u001b[32m{sum(dice_rolls) + modifier_num}"
     )
     print(
-        Back.WHITE +
-        "Please use the ↑ and ↓ arrow keys to navigate "
+        Fore.YELLOW +
+        "Please use the ↑ and ↓ arrow keys to navigate\n"
         "and select your option by hitting ENTER.\n"
     )
     if cutie.prompt_yes_or_no(Fore.YELLOW +
@@ -251,7 +248,7 @@ def fluff():
     """
     # Asks the user whether they want to generate a person
     # or place and assigns the selection to chosen_option
-    print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate "
+    print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
           "and select your option by hitting ENTER.\n")
     print(
         "Do you want to generate a \u001b[32mPerson "
@@ -265,8 +262,8 @@ def fluff():
     chosen_option = options[cutie.select(options)]
     # Person-specific generation content
     if "Person" in chosen_option:
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         print("Please select applicable tags for "
               "the character to be generated.")
         # Asks the user to pick the generated person's lawfulness
@@ -285,8 +282,8 @@ def fluff():
         else:
             law_tag_plaintext = "Chaotic"
         # Asks the user to pick the generated person's morality
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         moral_tags = [
             "Moral Alignment:",
             Fore.YELLOW + "Good",
@@ -415,13 +412,13 @@ def fluff():
         )
         print(description)
         # Asks if the user wants to copy the NPC's plaintext description
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Would you like to copy this description "
                                   "to your clipboard?"):
             pyperclip.copy(description_plaintext)
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Convert this NPC to an object?"):
             print(Fore.YELLOW + "Converting to Object "
                   "and saving in Spreadsheet...")
@@ -445,8 +442,8 @@ def fluff():
             new_instance_list = [value for value in new_instance.values()]
             CHARACTERS_SHEET.append_row(new_instance_list, table_range="A1:O1")
         # Asks if the user wants to create another NPC or place
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Would you like to create a new NPC "
                                   "or place?"):
             # Starts the NPC / Place Generation program again
@@ -456,8 +453,8 @@ def fluff():
             main()
     # Place specific generation content
     elif "Place" in chosen_option:
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         print("Please select applicable tags for the place to be generated.")
         # Asks the user to select a location type
         # towns have different attributes compared to dungeons or POIs
@@ -575,12 +572,12 @@ def fluff():
         print(description)
         # Asks if the user wants to copy the plaintext version
         # of the place's description
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Copy this description to your clipboard?"):
             pyperclip.copy(description_plaintext)
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Convert this place to an object?"):
             print(Fore.YELLOW + "Converting to object and "
                   "saving in spreadsheet...")
@@ -607,8 +604,8 @@ def fluff():
             print(new_instance_list)
             PLACES_SHEET.append_row(new_instance_list, table_range="A1:H1")
         # Asks if the user wants to create a new place or NPC
-        print(Back.WHITE + "Please use the ↑ and ↓ arrow keys to navigate"
-              "and select your option by hitting ENTER.\n" + Back.RESET)
+        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
+              "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Create a new place or NPC?"):
             # Runs the NPC/Place Generation part of the program
             fluff()
