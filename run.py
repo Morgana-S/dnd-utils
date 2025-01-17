@@ -34,21 +34,37 @@ class NPC:
 
     def __init__(self,
                  name,
-                 age,
-                 gender,
-                 race,
                  law_tag,
                  moral_tag,
+                 age,
+                 race,
+                 gender,
+                 gender_pronouns_1,
+                 gender_pronouns_2,
+                 gender_pronouns_3,
+                 gender_pronouns_4,
                  hair_color,
+                 rumor_1,
+                 rumor_2,
                  disposition,
                  disposition_text):
         self.name = name
-        self.age = age
-        self.gender = gender
-        self.race = race
         self.law = law_tag
         self.morality = moral_tag
+        self.age = age
+        self.race = race
+        self.gender = gender
+        self.gender_pronouns = [
+            gender_pronouns_1,
+            gender_pronouns_2,
+            gender_pronouns_3,
+            gender_pronouns_4
+        ]
         self.hair_color = hair_color
+        self.rumors = [
+            rumor_1,
+            rumor_2
+        ]
         self.disposition = disposition
         self.disposition_text = disposition_text
 
@@ -59,28 +75,41 @@ class Place:
     """
 
     def __init__(self,
+                 location_type,
                  name,
                  age,
-                 rumors):
+                 rumor_1,
+                 rumor_2,):
+        self.location_type = location_type
         self.name = name
         self.age = age
-        self.rumors = rumors
+        self.rumors = [
+            rumor_1,
+            rumor_2
+        ]
 
 
 class Town(Place):
     """
-    Creates an instance of the subclass Town
-    to be used only with "Town" places.
+    Crates an instance of the subclass Town
+    To be used only with location_type "Town"
+    members of the class Place.
     """
 
     def __init__(self,
+                 location_type,
                  name,
                  age,
-                 rumors,
+                 rumor_1,
+                 rumor_2,
                  leadership,
                  disposition,
                  disposition_text):
-        super().__init__(name, age, rumors)
+        super.__init__(location_type,
+                       name=name,
+                       age=age,
+                       rumor_1=rumor_1,
+                       rumor_2=rumor_2,)
         self.leadership = leadership
         self.disposition = disposition
         self.disposition_text = disposition_text
@@ -123,21 +152,21 @@ def diceroller():
         Back.WHITE +
         "Please type in the number of dice you want to roll "
         "and hit ENTER.\n"
-        )
+    )
     num_of_dice = cutie.get_number(
         "How many dice do you want to roll?", min_value=1, allow_float=False
-        )
+    )
     # Number of Sides on Each Dice
     print(
         Back.WHITE +
         "Please type in the number of sides "
         "on each dice and hit ENTER.\n"
-        )
+    )
     num_of_sides = cutie.get_number(
         "How many sides should each dice have?",
         min_value=2,
         allow_float=False
-        )
+    )
     dice_rolls = [random.randint(1, num_of_sides)
                   for value in range(num_of_dice)]
     # Skill Modifier - DND Skills allow for an additional number
@@ -146,7 +175,7 @@ def diceroller():
         Back.WHITE +
         "Please enter the number for the skill "
         "modifier and press ENTER.\n"
-        )
+    )
     modifier_num = cutie.get_number(
         "What is the modifier for the roll?", allow_float=False)
     # Asks the user to select whether the roll has
@@ -155,12 +184,12 @@ def diceroller():
         Back.WHITE +
         "Please use the ↑ and ↓ arrow keys to navigate "
         "and select your option by hitting ENTER.\n"
-          )
+    )
     print(
         Fore.YELLOW +
         "Is this an Advantage, Disadvantage, "
         "or Normal Roll?\n"
-        )
+    )
     advantage = [
         Fore.GREEN + "Advantage",
         Fore.RED + "Disadvantage",
@@ -194,17 +223,17 @@ def diceroller():
     print(
         f"\n\u001b[36mThe individual dice rolls were:"
         f"\u001b[33m{dice_rolls}"
-        )
+    )
     print(f"\u001b[31mThe total of all dice is: \u001b[37m{sum(dice_rolls)}")
     print(
         f"\u001b[35mThe sum of all dice rolls plus the modifier was: "
         f"\u001b[32m{sum(dice_rolls) + modifier_num}"
-        )
+    )
     print(
         Back.WHITE +
         "Please use the ↑ and ↓ arrow keys to navigate "
         "and select your option by hitting ENTER.\n"
-        )
+    )
     if cutie.prompt_yes_or_no(Fore.YELLOW +
                               "Would you like to roll more dice?"):
         # Begins the dice-rolling function again
@@ -228,7 +257,7 @@ def fluff():
     print(
         "Do you want to generate a \u001b[32mPerson "
         "\u001b[37mor a \u001b[31mPlace?\n"
-        )
+    )
     options = [
         Fore.GREEN + "Person (NPC)",
         Fore.RED + "Place",
@@ -619,4 +648,5 @@ def main():
     function_selection(chosen_function)
 
 
-main()
+# main()
+data_viewer()
