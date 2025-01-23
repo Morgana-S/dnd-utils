@@ -110,6 +110,14 @@ class Town(Place):
         self.disposition_text = disposition_text
 
 
+def clear():
+    """Clears the terminal for formatting purposes."""
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+
 def introduction():
     """
     Prints an introductory message and asks the user to
@@ -139,7 +147,7 @@ def instructions_selection():
     Allows the user to select which set of instructions they
     wish to view.
     """
-    os.system("cls")
+    clear()
     general_instructions = """
     GENERAL INSTRUCTIONS
 
@@ -164,13 +172,13 @@ def instructions_selection():
     elif "Fluff" in chosen_instructions:
         instructions_fluff()
     else:
-        os.system("cls")
+        clear()
         main()
 
 
 def instructions_diceroller():
     """Displays the instructions for the Diceroller Function"""
-    os.system("cls")
+    clear()
     instructions = """
     DICEROLLER
 
@@ -215,13 +223,13 @@ def instructions_diceroller():
     if "instructions" in chosen_exit:
         instructions_selection()
     else:
-        os.system("cls")
+        clear()
         main()
 
 
 def instructions_fluff():
     """Displays the instructions for the Fluff function"""
-    os.system("cls")
+    clear()
     instructions_part_one = """
     FLUFF (Generating a Person)
 
@@ -269,7 +277,7 @@ def instructions_fluff():
     ]
     chosen_option = options[cutie.select(options)]
     if "place" in chosen_option:
-        os.system("cls")
+        clear()
         print(instructions_part_two)
         options = [
             Fore.YELLOW + "Go back to instructions for generating a person",
