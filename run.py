@@ -421,6 +421,7 @@ def fluff():
     then generates an entity by drawing from predefined lists of
     characteristics.
     """
+    clear()
     # Asks the user whether they want to generate a person
     # or place and assigns the selection to chosen_option
     print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
@@ -744,29 +745,18 @@ def fluff():
 
 
 def function_selection(chosen_function):
-    """
-    Starts the user's chosen function
-    """
-    # Checks the string in chosen_function and starts the
-    # appropriate part of the program
+    """Starts the user's chosen function."""
     if "DiceRoller" in chosen_function:
-        print("Starting" + Fore.YELLOW + " DiceRoller" + Fore.RESET + "...")
         diceroller()
     elif "Fluff" in chosen_function:
-        print("Starting" + Fore.CYAN + " Fluff" + Fore.RESET + "...")
         fluff()
     else:
         instructions_selection()
 
 
 def main():
-    """
-    Runs the main program function sequence
-    """
-    # Finds the user's desired function by running the introduction function
-    # which asks the user to declare their chosen function.
+    """Runs the main program function sequence."""
     chosen_function = introduction()
-    # Takes the user to their chosen function
     function_selection(chosen_function)
 
 
