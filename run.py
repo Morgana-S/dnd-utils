@@ -111,7 +111,10 @@ class Town(Place):
 
 
 def clear():
-    """Clears the terminal for formatting purposes."""
+    """
+    Clears the terminal for formatting purposes. 
+    Provides functionality for both Windows and OSX/Linux.
+    """
     if os.name == "nt":
         os.system("cls")
     else:
@@ -179,12 +182,15 @@ def instructions_selection():
 def instructions_diceroller():
     """Displays the instructions for the Diceroller Function"""
     clear()
-    instructions = """
+    instructions_general = """
     DICEROLLER
 
     Diceroller is a tool used to quickly roll dice with various
     parameters for use in Dungeons and Dragons games.
-
+    """
+    instructions_selecting_numbers = """
+    NUMBER SELECTION
+    
     The Tool will first ask you to select a number of dice to roll
     and then the amount of sides on each dice. A typical example
     of a dice roll in Dungeons and Dragons is '3d6', which would be
@@ -194,6 +200,9 @@ def instructions_diceroller():
     In Dungeons and Dragons, player statistics allow them to sometimes add
     or remove numbers from a dice roll, reflecting their character's natural
     abilities. If no modifier is required, the user can simply enter '0'.
+    """
+    instructions_advantage = """
+    INFORMATION ABOUT ADVANTAGE / DISADVANTAGE / NORMAL ROLLS
 
     The tool will then ask you whether the roll has 'Advantage',
     'Disadvantage', or whether it is a 'Normal roll'. These are
@@ -214,24 +223,37 @@ def instructions_diceroller():
     The results of the dice roll are then displayed, with a breakdown
     of the roll so the user can see how the result was reached.
     """
-    print(instructions)
-    exits = [
-        Fore.YELLOW + "Go back to instructions",
-        Fore.RED + "Go back to main function selection"
+    print(instructions_general)
+    options = [
+        Fore.CYAN + "Read about selecting numbers for rolling dice",
+        Fore.GREEN + "Read about advantage, disadvantage, and normal rolls",
+        Back.RED + "Go Back"
     ]
-    chosen_exit = exits[cutie.select(exits)]
-    if "instructions" in chosen_exit:
-        instructions_selection()
-    else:
+    chosen_option = options[cutie.select(options)]
+    if "numbers" in chosen_option:
         clear()
-        main()
+        print(instructions_selecting_numbers)
+        option = [Back.RED + "Go Back"]
+        chosen_option = option[cutie.select(option)]
+        if "Back" in chosen_option:
+            instructions_diceroller()
+    elif "advantage" in chosen_option:
+        clear()
+        print(instructions_advantage)
+        option = [Back.RED + "Go Back"]
+        chosen_option = option[cutie.select(option)]
+        if "Back" in chosen_option:
+            instructions_diceroller()
+    else:
+        instructions_selection()
+
 
 
 def instructions_fluff():
     """Displays the instructions for the Fluff function"""
     clear()
-    instructions_part_one = """
-    FLUFF (Generating a Person)
+    instructions_general = """
+    FLUFF
 
     Fluff is a content generation tool to be used for creating
     characters and places within a Dungeons and Dragons Game.
@@ -239,9 +261,10 @@ def instructions_fluff():
     The tool will first ask the user whether they want to generate a
     person or a place.
 
-    The remaining instructions for this page will go into detail about
-    generating a person. For instructions on generating a place, please
-    go to the next page.
+    The options below will go into detail about generating a person or place.
+    """
+    instructions_person = """
+    GENERATING A PERSON
 
     The user is asked to pick a 'Lawfulness' and 'Morality' tag for the
     person they wish to generate. In Dungeons and Dragons, each person
@@ -255,9 +278,8 @@ def instructions_fluff():
     foundation for the user to flesh out the characters attitude, motivations
     and actions.
     """
-    instructions_part_two = """
-    FLUFF (Generating a Place)
-    These are the instructions for generating a place using Fluff.
+    instructions_place = """
+    GENERATING A PLACE
 
     The user is asked to select whether they would like to generate a town,
     dungeon, or point of interest. These different selections have different
@@ -269,26 +291,28 @@ def instructions_fluff():
     the location is a town, information on the leadership and the town's
     general disposition towards the players.
     """
-
-    print(instructions_part_one)
+    print(instructions_general)
     options = [
-        Fore.YELLOW + "Go to instructions for generating a place",
-        Fore.RED + "Go back to instructions selection"
+        Fore.GREEN + "Show instructions for generating a person",
+        Fore.CYAN + "Show instructions for generating a place",
+        Back.RED + "Go Back"
     ]
     chosen_option = options[cutie.select(options)]
-    if "place" in chosen_option:
+    if "person" in chosen_option:
         clear()
-        print(instructions_part_two)
-        options = [
-            Fore.YELLOW + "Go back to instructions for generating a person",
-            Fore.RED + "Go back to instructions selection"
-        ]
-        chosen_option = options[cutie.select(options)]
-        if "person" in chosen_option:
+        print(instructions_person)
+        option = [Back.RED + "Go Back"]
+        chosen_option = option[cutie.select(option)]
+        if "Back" in chosen_option:
             instructions_fluff()
-        else:
-            instructions_selection()
-    else:
+    elif "place" in chosen_option:
+        clear()
+        print(instructions_place)
+        option = [Back.RED + "Go Back"]
+        chosen_option = option[cutie.select(option)]
+        if "Back" in chosen_option:
+            instructions_fluff()
+    elif "Back" in chosen_option:
         instructions_selection()
 
 
