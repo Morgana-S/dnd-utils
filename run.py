@@ -291,16 +291,32 @@ def instructions_fluff():
     the location is a town, information on the leadership and the town's
     general disposition towards the players.
     """
+    instructions_information = """
+    SAVING YOUR GENERATED PERSON/PLACE
+
+    After generating a person or place, you will be prompted to save them to
+    the Google Spreadsheet which stores this information. You can save a
+    generated instance by typing 'y' and hitting ENTER. If you do not wish
+    to save the instance to the sheet, you can type 'n' and hit ENTER.
+    """
     print(instructions_general)
     options = [
         Fore.GREEN + "Show instructions for generating a person",
         Fore.CYAN + "Show instructions for generating a place",
+        Fore.YELLOW + "Show information on saving generated people and places",
         Back.RED + "Go Back"
     ]
     chosen_option = options[cutie.select(options)]
     if "person" in chosen_option:
         clear()
         print(instructions_person)
+        option = [Back.RED + "Go Back"]
+        chosen_option = option[cutie.select(option)]
+        if "Back" in chosen_option:
+            instructions_fluff()
+    elif "information" in chosen_option:
+        clear()
+        print(instructions_information)
         option = [Back.RED + "Go Back"]
         chosen_option = option[cutie.select(option)]
         if "Back" in chosen_option:
@@ -312,7 +328,7 @@ def instructions_fluff():
         chosen_option = option[cutie.select(option)]
         if "Back" in chosen_option:
             instructions_fluff()
-    elif "Back" in chosen_option:
+    else:
         instructions_selection()
 
 
