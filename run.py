@@ -126,19 +126,20 @@ def introduction():
     Prints an introductory message and asks the user to
     select which function they would like to utilize.
     """
-    print("Welcome to" + Fore.RED + " DNDUtils" + Fore.WHITE + "!")
-    print("Please choose a program to use:\n")
-    print(Fore.YELLOW + "DiceRoller" + Fore.RESET +
-          " - Roll Dice for your DND Game")
-    print(Fore.CYAN + "Fluff" + Fore.RESET +
-          " - Create NPCs or Places for your DND Game\n")
-    print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
-          "and select your option by hitting ENTER.\n")
+    introduction = (
+        f"Welcome to \u001b[31mDNDUtils\u001b[0m!\n\n"
+        f"Please choose a program to use:\n"
+        f"\u001b[33mDiceRoller\u001b[0m - Roll Dice for your DND Game\n"
+        f"\u001b[36mFluff\u001b[0m - Generate people or places for your DND Game"
+        f"\n\n\u001b[97mPlease use the ↑ and ↓ arrow keys to navigate\n"
+        f"and select your option by hitting ENTER.\n"
+    )
+    print(introduction)
     # Defines the available options for function selection
     functions = [
         Fore.YELLOW + "DiceRoller",
         Fore.CYAN + "Fluff",
-        Back.RED + "Instructions"
+        Fore.GREEN + "Instructions"
     ]
     # Asks the user to choose a function from the choices above
     chosen_function = functions[cutie.select(functions)]
