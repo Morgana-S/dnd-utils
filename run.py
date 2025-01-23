@@ -389,21 +389,6 @@ def fluff():
             f"{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards "
             f"the players is {npc_disposition} {npc_disposition_text}\n"
         )
-        # Creates a plaintext version of the description to be copied
-        # by pyperclip - this avoids escape characters
-        # showing in the description
-        description_plaintext = (
-            f"Your NPC is named '{npc_name}'.\n"
-            f"{npc_gender_pronouns[0]} {npc_age} years old. "
-            f"{npc_gender_pronouns[0]} a {gender_plaintext} {npc_race}.\n"
-            f"{npc_gender_pronouns[0]} {law_tag_plaintext} "
-            f"{moral_tag_plaintext}.\n"
-            f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
-            f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
-            f"{npc_rumors[0]}, {npc_rumors[1]}\n"
-            f"Their disposition towards the players is {npc_disposition} "
-            f"{npc_disposition_text}\n"
-        )
         print(description)
         print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
               "and select your option by hitting ENTER.\n")
@@ -526,33 +511,11 @@ def fluff():
                 f"is {place_disposition} "
                 f"{place_disposition_text}"
             )
-            # Plaintext version of the description - removes color codes
-            # for smoother copy-pasting
-            description_plaintext = (
-                f"Your {location_type_plaintext} is "
-                f"called {place_name}.\nIt was founded "
-                f"{place_age} years ago.\n"
-                f"It is currently led by {place_leadership}.\n"
-                f"Notable rumors include:"
-                f"\n{place_rumors[0]}, {place_rumors[1]}\n"
-                f"Their disposition towards the players "
-                f"is {place_disposition} "
-                f"{place_disposition_text}"
-            )
         # Dungeon and POI Description
         else:
             description = (
                 f"Your {place_location_type}\u001b[0m is called "
                 f"{place_name}.\nIt was discovered {place_age} years ago.\n"
-                f"Notable rumors include:\n"
-                f"{place_rumors[0]}, {place_rumors[1]}\n"
-            )
-            # Plaintext version of the description
-            # removes color codes for smoother copy-pasting
-            description_plaintext = (
-                f"Your {location_type_plaintext} is "
-                f"called {place_name}.\n"
-                f"It was discovered {place_age} years ago.\n"
                 f"Notable rumors include:\n"
                 f"{place_rumors[0]}, {place_rumors[1]}\n"
             )
