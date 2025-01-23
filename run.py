@@ -337,43 +337,28 @@ def diceroller():
     Rolls a chosen number of dice with a designated number of sides
     plus a modifier and then displays the output
     """
-    # Defines the variables used to calculate the dice rolls
-    # with user input - validates for number-only input
-    # Number of Dice to Roll
-    print(
-        Fore.YELLOW +
-        "Please type in the number of dice you want to roll "
-        "and hit ENTER.\n"
-    )
+    clear()
     num_of_dice = cutie.get_number(
-        "How many dice do you want to roll?", min_value=1, allow_float=False
-    )
-    # Number of Sides on Each Dice
-    print(
-        Fore.YELLOW +
-        "Please type in the number of sides "
-        "on each dice and hit ENTER.\n"
-    )
-    num_of_sides = cutie.get_number(
-        "How many sides should each dice have?",
-        min_value=2,
+        "How many dice do you want to roll? (Between 1 - 20)",
+        min_value=1,
+        max_value=20,
         allow_float=False
-    )
-    dice_rolls = [random.randint(1, num_of_sides)
-                  for value in range(num_of_dice)]
-    # Skill Modifier - DND Skills allow for an additional number
-    # to be added to the end of the roll
-    print(
-        Fore.YELLOW +
-        "Please enter the number for the skill "
-        "modifier and press ENTER.\n"
-    )
+        )
+    num_of_sides = cutie.get_number(
+        "How many sides should each dice have? (Between 2 - 100)",
+        min_value=2,
+        max_value=100,
+        allow_float=False
+        )
+    dice_rolls = [
+        random.randint(1, num_of_sides) for value in range(num_of_dice)
+        ]
     modifier_num = cutie.get_number(
-        "What is the modifier for the roll?", allow_float=False)
-    # Asks the user to select whether the roll has
-    # Advantage, Disadvantage, or Neither
-    print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
-          "and select your option by hitting ENTER.\n")
+        "What is the modifier for the roll? (Between -10 - 10)",
+        min_value=-10,
+        max_value=10,
+        allow_float=False
+        )
     print(
         Fore.YELLOW +
         "Is this an Advantage, Disadvantage, "
@@ -385,8 +370,7 @@ def diceroller():
         Fore.BLUE + "Normal Roll"
     ]
     advantage_roll = advantage[cutie.select(advantage)]
-    # Disadvantage Rolls roll two sets of dice, and pick the worse
-    # of the two outcomes
+    # Rolls roll two sets of dice, and pick the worse of the two outcomes
     if "Disadvantage" in advantage_roll:
         roll_one = [random.randint(1, num_of_sides)
                     for value in range(num_of_dice)]
@@ -396,8 +380,7 @@ def diceroller():
             dice_rolls = roll_two
         else:
             dice_rolls = roll_one
-    # Advantage Rolls roll two sets of dice, and pick the better
-    # of the two outcomes
+    # Rolls two sets of dice, and pick the better of the two outcomes
     elif "Advantage" in advantage_roll:
         roll_one = [random.randint(1, num_of_sides)
                     for value in range(num_of_dice)]
@@ -407,28 +390,21 @@ def diceroller():
             dice_rolls = roll_one
         else:
             dice_rolls = roll_two
-    # Prints the result
-    print(Fore.GREEN + "\nDice Summary")
-    print(
-        f"\n\u001b[36mThe individual dice rolls were:"
-        f"\u001b[33m{dice_rolls}"
+    result = (
+        f"\u001b[32mDICE SUMMARY\n\n"
+        f"\u001b[37mIndividual Dice: \u001b[33m{dice_rolls}\n"
+        f"\u001b[37mTotal: \u001b[34m{sum(dice_rolls)}\n"
+        f"\u001b[37mTotal + Modifier: "
+        f"\u001b[35m{sum(dice_rolls) + modifier_num}\n"
+
     )
-    print(f"\u001b[31mThe total of all dice is: \u001b[37m{sum(dice_rolls)}")
-    print(
-        f"\u001b[35mThe sum of all dice rolls plus the modifier was: "
-        f"\u001b[32m{sum(dice_rolls) + modifier_num}"
-    )
-    print(
-        Fore.YELLOW +
-        "Please use the ↑ and ↓ arrow keys to navigate\n"
-        "and select your option by hitting ENTER.\n"
-    )
-    if cutie.prompt_yes_or_no(Fore.YELLOW +
-                              "Would you like to roll more dice?"):
-        # Begins the dice-rolling function again
+    clear()
+    print(result)
+    if cutie.prompt_yes_or_no(
+            Fore.YELLOW + "Would you like to roll more dice?"):
         diceroller()
     else:
-        # Loops the program back to the start
+        clear()
         main()
 
 
@@ -436,8 +412,8 @@ def fluff():
     """
     Asks the user if they want to generate a person (NPC) or place,
     takes user input for predefined features of the entity and
-    then generates an entity by drawing
-    from predefined lists of characteristics
+    then generates an entity by drawing from predefined lists of
+    characteristics.
     """
     # Asks the user whether they want to generate a person
     # or place and assigns the selection to chosen_option
