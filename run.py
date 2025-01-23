@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import os
 import cutie
 import random
 from colorama import Fore, Back, init
@@ -126,11 +127,161 @@ def introduction():
     functions = [
         Fore.YELLOW + "DiceRoller",
         Fore.CYAN + "Fluff",
-        Back.RED + "Exit DNDUtils"
+        Back.RED + "Instructions"
     ]
     # Asks the user to choose a function from the choices above
     chosen_function = functions[cutie.select(functions)]
     return chosen_function
+
+
+def instructions_selection():
+    """
+    Allows the user to select which set of instructions they
+    wish to view.
+    """
+    os.system("cls")
+    general_instructions = """
+    GENERAL INSTRUCTIONS
+
+    Most selections within the program can be navigated by using the ↑ and ↓
+    arrow keys and pressing ENTER to select an option. Sometimes, you may be
+    prompted to type in a number (such as when rolling dice) and then hitting
+    ENTER.\n
+    """
+    print(
+        general_instructions
+        + Fore.YELLOW 
+        + "Please choose which specific instructions you wish to read.\n"
+    )
+    instructions = [
+        Fore.YELLOW + "Diceroller",
+        Fore.CYAN + "Fluff",
+        Back.RED + "Go Back"
+    ]
+    chosen_instructions = instructions[cutie.select(instructions)]
+    if "Diceroller" in chosen_instructions:
+        instructions_diceroller()
+    elif "Fluff" in chosen_instructions:
+        instructions_fluff()
+    else:
+        os.system("cls")
+        main()
+
+
+def instructions_diceroller():
+    """Displays the instructions for the Diceroller Function"""
+    os.system("cls")
+    instructions = """
+    DICEROLLER
+
+    Diceroller is a tool used to quickly roll dice with various
+    parameters for use in Dungeons and Dragons games.
+
+    The Tool will first ask you to select a number of dice to roll
+    and then the amount of sides on each dice. A typical example
+    of a dice roll in Dungeons and Dragons is '3d6', which would be
+    rolling 3 dice with 6 sides each.
+
+    The tool will also ask if you are adding a 'modifier' to the roll.
+    In Dungeons and Dragons, player statistics allow them to sometimes add
+    or remove numbers from a dice roll, reflecting their character's natural
+    abilities. If no modifier is required, the user can simply enter '0'.
+
+    The tool will then ask you whether the roll has 'Advantage',
+    'Disadvantage', or whether it is a 'Normal roll'. These are
+    defined as follows:
+
+    Advantage - Rolls two sets of dice and picks the 'best' outcomes,
+    e.g. for a 2d6 roll, it rolls two six-sided dice twice and picks the
+    best result from each set of rolls. If one total comes to 11 and the
+    other total comes to 6, it picks the set with the total that comes to 11.
+
+    Disadvantage - Rolls two sets of dice and picks the 'worst' outcomes.
+    e.g. for a 2d6 roll, it rolls two six-sided dice twice and picks the
+    worst result from each set of rolls. If one total comes to 11 and the
+    other total comes to 6, it picks the set with the total that comes to 6.
+
+    Normal Roll - Rolls one set of dice.
+
+    The results of the dice roll are then displayed, with a breakdown
+    of the roll so the user can see how the result was reached.
+    """
+    print(instructions)
+    exits = [
+        Fore.YELLOW + "Go back to instructions",
+        Fore.RED + "Go back to main function selection"
+    ]
+    chosen_exit = exits[cutie.select(exits)]
+    if "instructions" in chosen_exit:
+        instructions_selection()
+    else:
+        os.system("cls")
+        main()
+
+
+def instructions_fluff():
+    """Displays the instructions for the Fluff function"""
+    os.system("cls")
+    instructions_part_one = """
+    FLUFF (Generating a Person)
+
+    Fluff is a content generation tool to be used for creating
+    characters and places within a Dungeons and Dragons Game.
+
+    The tool will first ask the user whether they want to generate a
+    person or a place.
+
+    The remaining instructions for this page will go into detail about
+    generating a person. For instructions on generating a place, please
+    go to the next page.
+
+    The user is asked to pick a 'Lawfulness' and 'Morality' tag for the
+    person they wish to generate. In Dungeons and Dragons, each person
+    has a law alignment and a moral alignment which provides a shorthand
+    for how the character acts within the confines of society.
+
+    The tool then generates a variety of characteristics for the person,
+    including name, age, race, gender, hair color, two rumors (that allow
+    the user to provide motiviations for the character), and how the
+    character might feel about the player characters. This provides a
+    foundation for the user to flesh out the characters attitude, motivations
+    and actions.
+    """
+    instructions_part_two = """
+    FLUFF (Generating a Place)
+    These are the instructions for generating a place using Fluff.
+
+    The user is asked to select whether they would like to generate a town,
+    dungeon, or point of interest. These different selections have different
+    parameters which the user might be interested in, such as dungeons having
+    sinister place names, and towns having information on how the town is led.
+
+    The chosen option is then generated, containing information such as the
+    name of the place, age of the place, rumors concerning the place, and if
+    the location is a town, information on the leadership and the town's
+    general disposition towards the players.
+    """
+
+    print(instructions_part_one)
+    options = [
+        Fore.YELLOW + "Go to instructions for generating a place",
+        Fore.RED + "Go back to instructions selection"
+    ]
+    chosen_option = options[cutie.select(options)]
+    if "place" in chosen_option:
+        os.system("cls")
+        print(instructions_part_two)
+        options = [
+            Fore.YELLOW + "Go back to instructions for generating a person",
+            Fore.RED + "Go back to instructions selection"
+        ]
+        chosen_option = options[cutie.select(options)]
+        if "person" in chosen_option:
+            instructions_fluff()
+        else:
+            instructions_selection()
+    else:
+        instructions_selection()
 
 
 def diceroller():
@@ -575,7 +726,7 @@ def function_selection(chosen_function):
         print("Starting" + Fore.CYAN + " Fluff" + Fore.RESET + "...")
         fluff()
     else:
-        print(Back.RED + "Exiting DNDUtils" + Back.RESET + "...")
+        instructions_selection()
 
 
 def main():
