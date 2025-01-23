@@ -112,7 +112,7 @@ class Town(Place):
 
 def clear():
     """
-    Clears the terminal for formatting purposes. 
+    Clears the terminal for formatting purposes.
     Provides functionality for both Windows and OSX/Linux.
     """
     if os.name == "nt":
@@ -126,14 +126,20 @@ def introduction():
     Prints an introductory message and asks the user to
     select which function they would like to utilize.
     """
-    introduction = (
-        f"Welcome to \u001b[31mDNDUtils\u001b[0m!\n\n"
-        f"Please choose a program to use:\n"
-        f"\u001b[33mDiceRoller\u001b[0m - Roll Dice for your DND Game\n"
-        f"\u001b[36mFluff\u001b[0m - Generate people or places for your DND Game"
-        f"\n\n\u001b[97mPlease use the ↑ and ↓ arrow keys to navigate\n"
-        f"and select your option by hitting ENTER.\n"
-    )
+    introduction = """
+    Welcome to \u001b[91mDNDUtils\u001b[0m!
+
+    Please choose a program to use:
+
+    \u001b[33mDiceRoller\u001b[0m - Roll Dice for your DND Game
+
+    \u001b[36mFluff\u001b[0m - Generate people or places for your DND Game
+
+    \u001b[32mInstructions\u001b[0m - Shows the instructions for DiceRoller
+    and Fluff
+
+    \u001b[93mPlease use the ↑ and ↓ arrows to select an option and hit ENTER.
+    """
     print(introduction)
     # Defines the available options for function selection
     functions = [
@@ -162,7 +168,7 @@ def instructions_selection():
     """
     print(
         general_instructions
-        + Fore.YELLOW 
+        + Fore.YELLOW
         + "Please choose which specific instructions you wish to read.\n"
     )
     instructions = [
@@ -191,7 +197,7 @@ def instructions_diceroller():
     """
     instructions_selecting_numbers = """
     NUMBER SELECTION
-    
+
     The Tool will first ask you to select a number of dice to roll
     and then the amount of sides on each dice. A typical example
     of a dice roll in Dungeons and Dragons is '3d6', which would be
@@ -247,7 +253,6 @@ def instructions_diceroller():
             instructions_diceroller()
     else:
         instructions_selection()
-
 
 
 def instructions_fluff():
