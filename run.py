@@ -26,8 +26,8 @@ ALL_PLACES = PLACES_SHEET.get_all_records()
 ALL_CHARACTERS = CHARACTERS_SHEET.get_all_records()
 
 
-class NPC:
-    """Creates an instance of NPC."""
+class Person:
+    """Creates an instance of Person."""
 
     def __init__(self,
                  name,
