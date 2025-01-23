@@ -27,9 +27,7 @@ ALL_CHARACTERS = CHARACTERS_SHEET.get_all_records()
 
 
 class NPC:
-    """
-    Creates an instance of NPC.
-    """
+    """Creates an instance of NPC."""
 
     def __init__(self,
                  name,
@@ -69,9 +67,7 @@ class NPC:
 
 
 class Place:
-    """
-    Creates an instance of Place.
-    """
+    """Creates an instance of Place."""
 
     def __init__(self,
                  location_type,
@@ -119,7 +115,6 @@ def introduction():
     Prints an introductory message and asks the user to
     select which function they would like to utilize.
     """
-    # Prints an introductory message using methods from colorama for color
     print("Welcome to" + Fore.RED + " DNDUtils" + Fore.WHITE + "!")
     print("Please choose a program to use:\n")
     print(Fore.YELLOW + "DiceRoller" + Fore.RESET +
