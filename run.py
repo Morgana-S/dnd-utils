@@ -1,8 +1,8 @@
+import os
+import random
+import cutie
 import gspread
 from google.oauth2.service_account import Credentials
-import os
-import cutie
-import random
 from colorama import Fore, Back, init
 init(autoreset=True)
 
