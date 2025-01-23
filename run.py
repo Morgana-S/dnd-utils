@@ -406,12 +406,6 @@ def fluff():
             f"{npc_disposition_text}\n"
         )
         print(description)
-        # Asks if the user wants to copy the NPC's plaintext description
-        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
-              "and select your option by hitting ENTER.\n")
-        if cutie.prompt_yes_or_no("Would you like to copy this description "
-                                  "to your clipboard?"):
-            pyperclip.copy(description_plaintext)
         print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
               "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Convert this NPC to an object?"):
@@ -565,12 +559,6 @@ def fluff():
             )
         print(f"{place_location_type}\u001b[0m Generated!\n")
         print(description)
-        # Asks if the user wants to copy the plaintext version
-        # of the place's description
-        print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
-              "and select your option by hitting ENTER.\n")
-        if cutie.prompt_yes_or_no("Copy this description to your clipboard?"):
-            pyperclip.copy(description_plaintext)
         print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
               "and select your option by hitting ENTER.\n")
         if cutie.prompt_yes_or_no("Convert this place to an object?"):
