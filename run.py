@@ -152,6 +152,16 @@ def introduction():
     return chosen_function
 
 
+def function_selection(chosen_function):
+    """Starts the user's chosen function."""
+    if "DiceRoller" in chosen_function:
+        diceroller()
+    elif "Fluff" in chosen_function:
+        fluff_selector()
+    else:
+        instructions_selection()
+
+
 def instructions_selection():
     """
     Allows the user to select which set of instructions they
@@ -412,6 +422,108 @@ def diceroller():
     else:
         clear()
         main()
+
+
+def fluff_selector():
+    """
+    Asks the user to choose whether they're looking to generate
+    a person or place.
+    """
+    clear()
+    message = """
+    Do you want to generate a \u001b[32mPerson\u001b[0m 
+    or a \u001b[31mPlace?\n
+    """
+    print(message)
+    options = [
+        Fore.GREEN + "Person",
+        Fore.RED + "Place",
+        Back.RED + "Go Back"
+    ]
+    generation_type = options[cutie.select(options)]
+    if "Go Back" in generation_type:
+        main()
+    else:
+        tag_selector(generation_type)
+
+
+def tag_selector(generation_type):
+    """
+    Takes the chosen option from the fluff_selector function
+    and asks the user to choose the tags that are appropriate to
+    the type of instance they're trying to generate (Person or Place).
+    """
+    clear()
+    if "Person" in generation_type:
+        message = """
+        Please select applicable tags for the generation of your character.\n
+        """
+        print(message)
+        law_tags = [
+            "Law Alignment:",
+            Fore.CYAN + "Lawful",
+            Fore.GREEN + "Neutral",
+            Fore.RED + "Chaotic",
+        ]
+        moral_tags = [
+            "Moral Alignment:",
+            Fore.YELLOW + "Good",
+            Fore.BLUE + "Neutral",
+            Fore.RED + "Evil"
+        ]
+        law_tag = law_tags[cutie.select(
+            law_tags,
+            caption_indices=0,
+            selected_index=1
+            )]
+        moral_tag = moral_tags[cutie.select(
+            moral_tags,
+            caption_indices=0,
+            selected_index=1
+            )]
+        # Creates plaintext versions of the tags
+        # for storing in the Google Sheet
+        if "Lawful" in law_tag:
+            law_tag_plaintext = "Lawful"
+        elif "Neutral" in law_tag:
+            law_tag_plaintext = "Neutral"
+        else:
+            law_tag_plaintext = "Chaotic"
+        if "Good" in moral_tag:
+            moral_tag_plaintext = "Good"
+        elif "Neutral" in law_tag and moral_tag:
+            law_tag_plaintext = "True"
+            moral_tag_plaintext = "Neutral"
+        elif "Neutral" in moral_tag:
+            moral_tag_plaintext = "Neutral"
+        else:
+            moral_tag_plaintext = "Evil"
+        return law_tag, moral_tag, law_tag_plaintext, moral_tag_plaintext
+    else:
+        message = """
+        Please select applicable tags for the place to be generated.
+        """
+        print(message)
+        location_tags = [
+            "Location Type:",
+            Fore.BLUE + "Town",
+            Fore.RED + "Dungeon",
+            Fore.GREEN + "Point of Interest"
+        ]
+        location_tag = [cutie.select(
+            location_tags,
+            caption_indices=0,
+            selected_index=1
+        )]
+        # Creates plaintext version of the location tag for storage in
+        # Google Sheet
+        if "Town" in location_tag:
+            location_tag_plaintext = "Town"
+        elif "Dungeon" in location_tag:
+            location_tag_plaintext = "Dungeon"
+        else:
+            location_tag_plaintext = "Point of Interest"
+        return location_tag, location_tag_plaintext
 
 
 def fluff():
@@ -742,16 +854,6 @@ def fluff():
     # Lets the user back out of the NPC/Place Generation part of the program
     else:
         main()
-
-
-def function_selection(chosen_function):
-    """Starts the user's chosen function."""
-    if "DiceRoller" in chosen_function:
-        diceroller()
-    elif "Fluff" in chosen_function:
-        fluff()
-    else:
-        instructions_selection()
 
 
 def main():
