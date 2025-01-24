@@ -245,7 +245,7 @@ def fluff_selector():
     """
     clear()
     message = """
-    Do you want to generate a \u001b[32mPerson\u001b[0m 
+    Do you want to generate a \u001b[32mPerson\u001b[0m
     or a \u001b[31mPlace?\n
     """
     print(message)
@@ -287,12 +287,12 @@ def fluff_tag_selector(generation_type):
         ]
         law_tag = law_tags[cutie.select(
             law_tags,
-            caption_indices=0,
+            caption_indices=[0],
             selected_index=1
             )]
         moral_tag = moral_tags[cutie.select(
             moral_tags,
-            caption_indices=0,
+            caption_indices=[0],
             selected_index=1
             )]
         # Creates plaintext versions of the tags
@@ -312,7 +312,12 @@ def fluff_tag_selector(generation_type):
             moral_tag_plaintext = "Neutral"
         else:
             moral_tag_plaintext = "Evil"
-        return law_tag, moral_tag, law_tag_plaintext, moral_tag_plaintext
+        generation_tags = (
+            law_tag,
+            moral_tag,
+            law_tag_plaintext,
+            moral_tag_plaintext
+            )
     else:
         message = """
         Please select applicable tags for the place to be generated.
@@ -324,9 +329,9 @@ def fluff_tag_selector(generation_type):
             Fore.RED + "Dungeon",
             Fore.GREEN + "Point of Interest"
         ]
-        location_tag = [cutie.select(
+        location_tag = location_tags[cutie.select(
             location_tags,
-            caption_indices=0,
+            caption_indices=[0],
             selected_index=1
         )]
         # Creates plaintext version of the location tag for storage in
@@ -337,7 +342,150 @@ def fluff_tag_selector(generation_type):
             location_tag_plaintext = "Dungeon"
         else:
             location_tag_plaintext = "Point of Interest"
-        return location_tag, location_tag_plaintext
+        generation_tags = (
+            location_tag,
+            location_tag_plaintext
+            )
+    fluff_generation(generation_tags)
+
+
+def fluff_generation(generation_tags):
+    """
+    Generates a person or place depending on the generation tags provided.
+    """
+    # Checks the length of the generation tags to see if generating a person
+    # or place
+    clear()
+    if len(generation_tags) == 4:
+        print("Generating Person...")
+        # Pulls the name generation lists and chooses a name at random
+        # from each one, combining them for the character's name
+        f_name_import_list = CHARACTERS_LISTS_SHEET.col_values(2)
+        f_name_list = [name for name in f_name_import_list[1:51]]
+        l_name_import_list = CHARACTERS_LISTS_SHEET.col_values(3)
+        l_name_list = [name for name in l_name_import_list[1:62]]
+        f_name = f_name_list[random.randint(0, 49)]
+        l_name = l_name_list[random.randint(0, 60)]
+        name = f_name + " " + l_name
+        age = random.randint(19, 70)
+        # Pulls the race list and picks a random race for the person
+        race_import_list = CHARACTERS_LISTS_SHEET.col_values(1)
+        race_list = [race for race in race_import_list[1:48]]
+        race = race_list[random.randint(0, 46)]
+        # Multiplies age if character is an elf to reflect that elves
+        # typically live much longer
+        if "Elf" in race:
+            age = age * 10
+        # Generates the person's gender and creates a plaintext version
+        # for storage in Google Sheet
+        gender_list = [
+            Fore.BLUE + "Male",
+            Fore.RED + "Female",
+            Fore.YELLOW + "Non-binary"
+        ]
+        gender = gender_list[random.randint(0, 2)]
+        if "Female" in gender:
+            gender_plaintext = "Female"
+        elif "Male" in gender:
+            gender_plaintext = "Male"
+        else:
+            gender_plaintext = "Non-binary"
+        # Generates the person's hair color
+        hair_color_import_list = CHARACTERS_LISTS_SHEET.col_values(4)
+        hair_color_list = [color for color in hair_color_import_list[1:31]]
+        hair_color = hair_color_list[random.randint(0, 29)]
+        # Generates two rumors for the person
+        rumors_import_list = CHARACTERS_LISTS_SHEET.col_values(5)
+        rumors_list = [rumor for rumor in rumors_import_list[1:41]]
+        rumors = []
+        while len(rumors) < 2:
+            rumor = rumors_list[random.randint(0, 39)]
+            if rumor not in rumors:
+                rumors.append(rumor)
+        # Generates person's disposition towards the players
+        disposition = random.randint(-100, 100)
+        if disposition < -50:
+            disposition_text = "(They hate the players.)"
+        elif disposition < 0:
+            disposition_text = "(They dislike the players.)"
+        elif 0 <= disposition <= 10:
+            disposition_text = "(They feel neutral about the players.)"
+        elif disposition < 50:
+            disposition_text = "(They like the players.)"
+        else:
+            disposition_text = "(They love the players.)"
+        generated_instance = (
+            generation_tags,
+            name,
+            age,
+            race,
+            gender,
+            gender_plaintext,
+            hair_color,
+            rumors,
+            disposition,
+            disposition_text
+            )
+        print(generated_instance)
+    else:
+        print("Generating Place...")
+        # Pulls correct lists depending on location type
+        if "Town" in generation_tags:
+            # Imports the correct lists for towns
+            name_import_list = PLACES_LISTS_SHEET.col_values(1)
+            leadership_import_list = PLACES_LISTS_SHEET.col_values(4)
+            leadership_list = [
+                leadership for leadership in leadership_import_list[1:16]
+            ]
+            leadership = leadership_list[random.randint(0, 14)]
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
+            disposition = random.randint(-100, 100)
+            if disposition < -50:
+                disposition_text = "(They hate the players.)"
+            elif disposition < 0:
+                disposition_text = "(They dislike the players.)"
+            elif 0 <= disposition <= 10:
+                disposition_text = (
+                    "(They feel neutral about the players)"
+                )
+            elif disposition < 50:
+                disposition_text = "(They like the players.)"
+            else:
+                disposition_text = "(They love the players.)"
+        elif "Dungeon" in generation_tags:
+            name_import_list = PLACES_LISTS_SHEET.col_values(2)
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(6)
+        else:
+            name_import_list = PLACES_LISTS_SHEET.col_values(3)
+            rumors_import_list = PLACES_LISTS_SHEET.col_values(7)
+        name_list = [name for name in name_import_list[1:51]]
+        name = name_list[random.randint(0, 49)]
+        age = random.randint(3, 250)
+        rumors_list = [rumor for rumor in rumors_import_list[1:17]]
+        rumors = []
+        while len(rumors) < 2:
+            rumor = rumors_list[random.randint(0, 15)]
+            if rumor not in rumors:
+                rumors.append(rumor)
+        # Packs the generated location into a tuple depending on type
+        if "Town" in generation_tags:
+            generated_instance = (
+                generation_tags,
+                name,
+                age,
+                rumors,
+                leadership,
+                disposition,
+                disposition_text
+            )
+        else:
+            generated_instance = (
+                generation_tags,
+                name,
+                age,
+                rumors
+            )
+        print(generated_instance)
 
 
 def instructions_selection():
@@ -526,15 +674,6 @@ def instructions_fluff():
         instructions_selection()
 
 
-
-
-
-
-
-
-
-
-
 def fluff():
     """
     Asks the user if they want to generate a person (NPC) or place,
@@ -666,17 +805,17 @@ def fluff():
             if rumor not in npc_rumors:
                 npc_rumors.append(rumor)
         # Generates the NPC's disposition and disposition text
-        npc_disposition = random.randint(-100, 100)
-        if npc_disposition < -50:
-            npc_disposition_text = "(They hate the players.)"
-        elif npc_disposition < 0:
-            npc_disposition_text = "(They dislike the players.)"
-        elif 0 <= npc_disposition <= 10:
-            npc_disposition_text = "(They feel neutral about the players.)"
-        elif npc_disposition < 50:
-            npc_disposition_text = "(They like the players.)"
+        disposition = random.randint(-100, 100)
+        if disposition < -50:
+            disposition_text = "(They hate the players.)"
+        elif disposition < 0:
+            disposition_text = "(They dislike the players.)"
+        elif 0 <= disposition <= 10:
+            disposition_text = "(They feel neutral about the players.)"
+        elif disposition < 50:
+            disposition_text = "(They like the players.)"
         else:
-            npc_disposition_text = "(They love the players, "
+            disposition_text = "(They love the players, "
             "platonically speaking.)"
         print("Character Generated!\n")
         # Outlines the description of the generated NPC
@@ -690,7 +829,7 @@ def fluff():
             f"{npc_gender_pronouns[3]} {npc_hair_color} hair.\n"
             f"{npc_gender_pronouns[0]} associated with the following rumors:\n"
             f"{npc_rumors[0]}, {npc_rumors[1]}\nTheir disposition towards "
-            f"the players is {npc_disposition} {npc_disposition_text}\n"
+            f"the players is {disposition} {disposition_text}\n"
         )
         print(description)
         print(Fore.YELLOW + "Please use the ↑ and ↓ arrow keys to navigate\n"
@@ -712,8 +851,8 @@ def fluff():
                 hair_color=npc_hair_color,
                 rumor_1=npc_rumors[0],
                 rumor_2=npc_rumors[1],
-                disposition=npc_disposition,
-                disposition_text=npc_disposition_text
+                disposition=disposition,
+                disposition_text=disposition_text
             )
             new_instance_list = [value for value in new_instance.values()]
             CHARACTERS_SHEET.append_row(new_instance_list, table_range="A1:O1")
@@ -761,18 +900,18 @@ def fluff():
             rumors_import_list = PLACES_LISTS_SHEET.col_values(5)
             # Generates a disposition and disposition text for the town
             # towards the players
-            place_disposition = random.randint(-100, 100)
-            if place_disposition < -50:
-                place_disposition_text = "(They hate the players.)"
-            elif place_disposition < 0:
-                place_disposition_text = "(They dislike the players.)"
-            elif 0 <= place_disposition <= 10:
-                place_disposition_text = "(They feel neutral about the "
+            disposition = random.randint(-100, 100)
+            if disposition < -50:
+                disposition_text = "(They hate the players.)"
+            elif disposition < 0:
+                disposition_text = "(They dislike the players.)"
+            elif 0 <= disposition <= 10:
+                disposition_text = "(They feel neutral about the "
                 "players.)"
-            elif place_disposition < 50:
-                place_disposition_text = "(They like the players.)"
+            elif disposition < 50:
+                disposition_text = "(They like the players.)"
             else:
-                place_disposition_text = "(They love the players, "
+                disposition_text = "(They love the players, "
                 "platonically speaking.)"
         # Dungeon Specific Generation
         elif "Dungeon" in place_location_type:
@@ -811,8 +950,8 @@ def fluff():
                 f"Notable rumors include:\n"
                 f"{place_rumors[0]}, {place_rumors[1]}\n"
                 f"Their disposition towards the players "
-                f"is {place_disposition} "
-                f"{place_disposition_text}"
+                f"is {disposition} "
+                f"{disposition_text}"
             )
         # Dungeon and POI Description
         else:
@@ -837,8 +976,8 @@ def fluff():
                     rumor_1=place_rumors[0],
                     rumor_2=place_rumors[1],
                     leadership=place_leadership,
-                    disposition=place_disposition,
-                    disposition_text=place_disposition_text
+                    disposition=disposition,
+                    disposition_text=disposition_text
                 )
             else:
                 new_instance = dict(
