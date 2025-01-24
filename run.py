@@ -162,6 +162,81 @@ def function_selection(chosen_function):
         instructions_selection()
 
 
+def diceroller():
+    """
+    Rolls a chosen number of dice with a designated number of sides
+    plus a modifier and then displays the output
+    """
+    clear()
+    num_of_dice = cutie.get_number(
+        "How many dice do you want to roll? (Between 1 - 20)",
+        min_value=1,
+        max_value=20,
+        allow_float=False
+        )
+    num_of_sides = cutie.get_number(
+        "How many sides should each dice have? (Between 2 - 100)",
+        min_value=2,
+        max_value=100,
+        allow_float=False
+        )
+    dice_rolls = [
+        random.randint(1, num_of_sides) for value in range(num_of_dice)
+        ]
+    modifier_num = cutie.get_number(
+        "What is the modifier for the roll? (Between -10 - 10)",
+        min_value=-10,
+        max_value=10,
+        allow_float=False
+        )
+    print(
+        Fore.YELLOW +
+        "Is this an Advantage, Disadvantage, "
+        "or Normal Roll?\n"
+    )
+    advantage = [
+        Fore.GREEN + "Advantage",
+        Fore.RED + "Disadvantage",
+        Fore.BLUE + "Normal Roll"
+    ]
+    advantage_roll = advantage[cutie.select(advantage)]
+    # Rolls roll two sets of dice, and pick the worse of the two outcomes
+    if "Disadvantage" in advantage_roll:
+        roll_one = [random.randint(1, num_of_sides)
+                    for value in range(num_of_dice)]
+        roll_two = [random.randint(1, num_of_sides)
+                    for value in range(num_of_dice)]
+        if roll_one > roll_two:
+            dice_rolls = roll_two
+        else:
+            dice_rolls = roll_one
+    # Rolls two sets of dice, and pick the better of the two outcomes
+    elif "Advantage" in advantage_roll:
+        roll_one = [random.randint(1, num_of_sides)
+                    for value in range(num_of_dice)]
+        roll_two = [random.randint(1, num_of_sides)
+                    for value in range(num_of_dice)]
+        if roll_one > roll_two:
+            dice_rolls = roll_one
+        else:
+            dice_rolls = roll_two
+    result = (
+        f"\u001b[32mDICE SUMMARY\n\n"
+        f"\u001b[37mIndividual Dice: \u001b[33m{dice_rolls}\n"
+        f"\u001b[37mTotal: \u001b[34m{sum(dice_rolls)}\n"
+        f"\u001b[37mTotal + Modifier: "
+        f"\u001b[35m{sum(dice_rolls) + modifier_num}\n"
+
+    )
+    clear()
+    print(result)
+    if cutie.prompt_yes_or_no(
+            Fore.YELLOW + "Would you like to roll more dice?"):
+        diceroller()
+    else:
+        clear()
+        main()
+
 def instructions_selection():
     """
     Allows the user to select which set of instructions they
@@ -348,80 +423,7 @@ def instructions_fluff():
         instructions_selection()
 
 
-def diceroller():
-    """
-    Rolls a chosen number of dice with a designated number of sides
-    plus a modifier and then displays the output
-    """
-    clear()
-    num_of_dice = cutie.get_number(
-        "How many dice do you want to roll? (Between 1 - 20)",
-        min_value=1,
-        max_value=20,
-        allow_float=False
-        )
-    num_of_sides = cutie.get_number(
-        "How many sides should each dice have? (Between 2 - 100)",
-        min_value=2,
-        max_value=100,
-        allow_float=False
-        )
-    dice_rolls = [
-        random.randint(1, num_of_sides) for value in range(num_of_dice)
-        ]
-    modifier_num = cutie.get_number(
-        "What is the modifier for the roll? (Between -10 - 10)",
-        min_value=-10,
-        max_value=10,
-        allow_float=False
-        )
-    print(
-        Fore.YELLOW +
-        "Is this an Advantage, Disadvantage, "
-        "or Normal Roll?\n"
-    )
-    advantage = [
-        Fore.GREEN + "Advantage",
-        Fore.RED + "Disadvantage",
-        Fore.BLUE + "Normal Roll"
-    ]
-    advantage_roll = advantage[cutie.select(advantage)]
-    # Rolls roll two sets of dice, and pick the worse of the two outcomes
-    if "Disadvantage" in advantage_roll:
-        roll_one = [random.randint(1, num_of_sides)
-                    for value in range(num_of_dice)]
-        roll_two = [random.randint(1, num_of_sides)
-                    for value in range(num_of_dice)]
-        if roll_one > roll_two:
-            dice_rolls = roll_two
-        else:
-            dice_rolls = roll_one
-    # Rolls two sets of dice, and pick the better of the two outcomes
-    elif "Advantage" in advantage_roll:
-        roll_one = [random.randint(1, num_of_sides)
-                    for value in range(num_of_dice)]
-        roll_two = [random.randint(1, num_of_sides)
-                    for value in range(num_of_dice)]
-        if roll_one > roll_two:
-            dice_rolls = roll_one
-        else:
-            dice_rolls = roll_two
-    result = (
-        f"\u001b[32mDICE SUMMARY\n\n"
-        f"\u001b[37mIndividual Dice: \u001b[33m{dice_rolls}\n"
-        f"\u001b[37mTotal: \u001b[34m{sum(dice_rolls)}\n"
-        f"\u001b[37mTotal + Modifier: "
-        f"\u001b[35m{sum(dice_rolls) + modifier_num}\n"
 
-    )
-    clear()
-    print(result)
-    if cutie.prompt_yes_or_no(
-            Fore.YELLOW + "Would you like to roll more dice?"):
-        diceroller()
-    else:
-        clear()
-        main()
 
 
 def fluff_selector():
