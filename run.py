@@ -28,35 +28,26 @@ ALL_CHARACTERS = CHARACTERS_SHEET.get_all_records()
 
 class Person:
     """Creates an instance of Person."""
-
-    def __init__(self,
-                 name,
-                 law_tag,
-                 moral_tag,
-                 age,
-                 race,
-                 gender,
-                 gender_pronouns_1,
-                 gender_pronouns_2,
-                 gender_pronouns_3,
-                 gender_pronouns_4,
-                 hair_color,
-                 rumor_1,
-                 rumor_2,
-                 disposition,
-                 disposition_text):
+    def __init__(
+            self,
+            name,
+            law_tag,
+            moral_tag,
+            age,
+            race,
+            gender,
+            hair_color,
+            rumor_1,
+            rumor_2,
+            disposition,
+            disposition_text
+            ):
         self.name = name
         self.law = law_tag
         self.morality = moral_tag
         self.age = age
         self.race = race
         self.gender = gender
-        self.gender_pronouns = [
-            gender_pronouns_1,
-            gender_pronouns_2,
-            gender_pronouns_3,
-            gender_pronouns_4
-        ]
         self.hair_color = hair_color
         self.rumors = [
             rumor_1,
@@ -68,13 +59,14 @@ class Person:
 
 class Place:
     """Creates an instance of Place."""
-
-    def __init__(self,
-                 location_type,
-                 name,
-                 age,
-                 rumor_1,
-                 rumor_2,):
+    def __init__(
+            self,
+            location_type,
+            name,
+            age,
+            rumor_1,
+            rumor_2,
+            ):
         self.location_type = location_type
         self.name = name
         self.age = age
@@ -90,21 +82,24 @@ class Town(Place):
     To be used only with location_type "Town"
     members of the class Place.
     """
-
-    def __init__(self,
-                 location_type,
-                 name,
-                 age,
-                 rumor_1,
-                 rumor_2,
-                 leadership,
-                 disposition,
-                 disposition_text):
-        super.__init__(location_type,
-                       name=name,
-                       age=age,
-                       rumor_1=rumor_1,
-                       rumor_2=rumor_2,)
+    def __init__(
+            self,
+            location_type,
+            name,
+            age,
+            rumor_1,
+            rumor_2,
+            leadership,
+            disposition,
+            disposition_text
+            ):
+        super.__init__(
+            location_type,
+            name=name,
+            age=age,
+            rumor_1=rumor_1,
+            rumor_2=rumor_2
+            )
         self.leadership = leadership
         self.disposition = disposition
         self.disposition_text = disposition_text
