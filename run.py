@@ -306,6 +306,7 @@ def fluff_tag_selector(generation_type):
         if "Good" in moral_tag:
             moral_tag_plaintext = "Good"
         elif "Neutral" in law_tag and moral_tag:
+            law_tag = Fore.BLUE + "True"
             law_tag_plaintext = "True"
             moral_tag_plaintext = "Neutral"
         elif "Neutral" in moral_tag:
@@ -426,7 +427,7 @@ def fluff_generation(generation_tags):
             disposition,
             disposition_text
             )
-        print(generated_instance)
+        fluff_display(generated_instance)
     else:
         print("Generating Place...")
         # Pulls correct lists depending on location type
@@ -485,7 +486,135 @@ def fluff_generation(generation_tags):
                 age,
                 rumors
             )
-        print(generated_instance)
+        fluff_display(generated_instance)
+
+
+def fluff_display(generated_instance):
+    """
+    Takes the data from instance generation and displays it to the user.
+    Also provides the user with the option to write the data 
+    to the Google Sheet.
+    """
+    if len(generated_instance) == 10:
+        # Unpacks the tuple into more manageable items
+        features = [feature for feature in generated_instance]
+        name = features[1]
+        (law_tag, moral_tag,
+            law_tag_plaintext, moral_tag_plaintext) = features[0]
+        age = features[2]
+        race = features[3]
+        gender = features[4]
+        gender_plaintext = features[5]
+        hair_color = features[6]
+        rumors = features[7]
+        disposition = features[8]
+        disposition_text = features[9]
+        generation_text = (
+            f"\u001b[93mPerson Generated!\u001b[0m\n\n"
+            f"Name: {name}\n"
+            f"Alignment: {law_tag} {moral_tag}\u001b[0m\n"
+            f"Age: {age}\n"
+            f"Race:{race}\n"
+            f"Gender: {gender}\u001b[0m\n"
+            f"Hair Color: {hair_color}\n"
+            f"Rumors: {rumors[0]}, {rumors[1]}\n"
+            f"Disposition: {disposition} {disposition_text}\n"
+        )
+        print(generation_text)
+        if cutie.prompt_yes_or_no("Save person to Google Sheet?"):
+            save_list = [
+                name,
+                law_tag_plaintext,
+                moral_tag_plaintext,
+                age,
+                race,
+                gender_plaintext,
+                hair_color,
+                rumors[0],
+                rumors[1],
+                disposition,
+                disposition_text
+            ]
+            CHARACTERS_SHEET.append_row(save_list, table_range="A1:K1")
+            print(Fore.GREEN + "Person saved to sheet!\n")
+        fluff_generate_new()
+    else:
+        features = [feature for feature in generated_instance]
+        if "Town" in features[0]:
+            name = features[1]
+            (location_tag, location_tag_plaintext) = features[0]
+            age = features[2]
+            rumors = features[3]
+            leadership = features[4]
+            disposition = features[5]
+            disposition_text = features[6]
+            generation_text = (
+                f"\u001b[93m{location_tag_plaintext} Generated!\u001b[0m\n\n"
+                f"Name: {name}\n"
+                f"Age: {age}\n"
+                f"Rumors: {rumors[0]}, {rumors[1]}\n"
+                f"Leadership: {leadership}\n"
+                f"Disposition: {disposition} {disposition_text}\n"
+            )
+            print(generation_text)
+            if cutie.prompt_yes_or_no("Save location to Google Sheet?"):
+                save_list = [
+                    location_tag_plaintext,
+                    name,
+                    age,
+                    rumors[0],
+                    rumors[1],
+                    leadership,
+                    disposition,
+                    disposition_text
+                ]
+                PLACES_SHEET.append_row(save_list, table_range="A1:H1")
+                print(Fore.GREEN + "Place saved to sheet!\n")
+            fluff_generate_new()
+        else:
+            name = features[1]
+            (location_tag, location_tag_plaintext) = features[0]
+            age = features[2]
+            rumors = features[3]
+            generation_text = (
+                f"\u001b[93m{location_tag_plaintext} Generated!\u001b[0m\n\n"
+                f"Name: {name}\n"
+                f"Discovered: {age} years ago\n"
+                f"Rumors: {rumors[0]}, {rumors[1]}\n"
+            )
+            print(generation_text)
+            if cutie.prompt_yes_or_no("Save location to Google Sheet?"):
+                save_list = [
+                    location_tag_plaintext,
+                    name,
+                    age,
+                    rumors[0],
+                    rumors[1]
+                ]
+                PLACES_SHEET.append_row(save_list, table_range="A1:E1")
+                print(Fore.GREEN + "Place saved to sheet!\n")
+            fluff_generate_new()
+
+
+def fluff_generate_new():
+    """
+    Asks the user if they wish to generate a new person or place,
+    or takes them back to the main selection screen otherwise.
+    """
+    print(Fore.YELLOW + "What would you like to do next?\n")
+    options = [
+        Fore.BLUE + "Generate a new person or place",
+        Fore.RED + "Go back to the function selection page"
+    ]
+    chosen_option = options[cutie.select(
+        options,
+        selected_index=1
+        )]
+    if "Generate" in chosen_option:
+        fluff_selector()
+    else:
+        clear()
+        main()
 
 
 def instructions_selection():
