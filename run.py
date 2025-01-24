@@ -487,7 +487,7 @@ def fluff_generation(generation_tags):
 def fluff_display(generated_instance):
     """
     Takes the data from instance generation and displays it to the user.
-    Also provides the user with the option to write the data 
+    Also provides the user with the option to write the data
     to the Google Sheet.
     """
     if len(generated_instance) == 10:
