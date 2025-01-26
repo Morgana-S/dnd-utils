@@ -22,8 +22,6 @@ CHARACTERS_SHEET = SHEET.worksheet("characters")
 CHARACTERS_LISTS_SHEET = SHEET.worksheet("characters_lists")
 PLACES_SHEET = SHEET.worksheet("places")
 PLACES_LISTS_SHEET = SHEET.worksheet("places_lists")
-ALL_PLACES = PLACES_SHEET.get_all_records()
-ALL_CHARACTERS = CHARACTERS_SHEET.get_all_records()
 
 
 class Person:
@@ -43,8 +41,7 @@ class Person:
             disposition_text
             ):
         self.name = name
-        self.law = law_tag
-        self.morality = moral_tag
+        self.alignment = law_tag, moral_tag
         self.age = age
         self.race = race
         self.gender = gender
@@ -804,7 +801,7 @@ def view_instances_selector():
     and directs them to the correct function for doing so.
     """
     clear()
-    print("Would you like to all view people or places?")
+    print("Would you like to view all people or places?\n")
     options = [
         Fore.GREEN + "People",
         Fore.RED + "Places",
@@ -829,7 +826,8 @@ def view_instances_people():
     by name, and allows the user to select them to view each attribute.
     """
     clear()
-    people = {data["name"]: Person(**data) for data in ALL_CHARACTERS}
+    all_characters = CHARACTERS_SHEET.get_all_records()
+    people = {data["name"]: Person(**data) for data in all_characters}
     people_list = list(people.keys()) + [Back.RED + "Go Back"]
     print("Which person would you like to view?")
     chosen_person = people_list[cutie.select(
@@ -844,7 +842,8 @@ def view_instances_people():
     clear()
     print("\n\u001b[33mDetails:\n")
     for attr, value in vars(display_selection).items():
-        print(f"{attr}: {value}")
+        print(f"{attr.capitalize()}: {value}")
+    print("\n")
     option = [
         Back.RED + "Go Back"
     ]
@@ -863,7 +862,8 @@ def view_instances_places():
     by name, and allows the user to select them to view each attribute.
     """
     clear()
-    places = {data["name"]: Place(**data) for data in ALL_PLACES}
+    all_places = PLACES_SHEET.get_all_records()
+    places = {data["name"]: Place(**data) for data in all_places}
     places_list = list(places.keys()) + [Back.RED + "Go Back"]
     print("Which place would you like to view?")
     chosen_place = places_list[cutie.select(
@@ -879,9 +879,9 @@ def view_instances_places():
     print("\n\u001b[33mDetails:\n")
     for attr, value in vars(display_selection).items():
         if value not in ("", None):
-            print(f"{attr}: {value}")
+            print(f"{attr.capitalize()}: {value}")
     # Creates a whitespace for a cleaner format
-    print("")
+    print("\n")
     option = [
         Back.RED + "Go Back"
     ]
