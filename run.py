@@ -111,8 +111,8 @@ def introduction():
     functions = [
         Fore.YELLOW + "DiceRoller",
         Fore.CYAN + "Fluff",
-        Fore.GREEN + "Instructions",
-        Fore.RED + "View generated people/places"
+        Fore.RED + "View generated people/places",
+        Fore.GREEN + "Instructions"
     ]
     # Asks the user to choose a function from the choices above
     chosen_function = functions[cutie.select(functions)]
@@ -608,11 +608,14 @@ def instructions_selection():
     instructions = [
         Fore.YELLOW + "Diceroller",
         Fore.CYAN + "Fluff",
+        Fore.RED + "Viewing people or places generated using Fluff",
         Back.RED + "Go Back"
     ]
     chosen_instructions = instructions[cutie.select(instructions)]
     if "Diceroller" in chosen_instructions:
         instructions_diceroller()
+    elif "Viewing" in chosen_instructions:
+        instructions_viewer()
     elif "Fluff" in chosen_instructions:
         instructions_fluff()
     else:
@@ -754,7 +757,7 @@ def instructions_fluff():
         chosen_option = option[cutie.select(option)]
         if "Back" in chosen_option:
             instructions_fluff()
-    elif "information" in chosen_option:
+    elif "saving" in chosen_option:
         clear()
         print(instructions_information)
         option = [Back.RED + "Go Back"]
@@ -769,6 +772,29 @@ def instructions_fluff():
         if "Back" in chosen_option:
             instructions_fluff()
     else:
+        instructions_selection()
+
+
+def instructions_viewer():
+    instructions_general = """
+    VIEWING GENERATED PEOPLE OR PLACES
+
+    After generating a few people or places, you can use the third option
+    in the main menu to view the people or places generated. You can
+    select whether to view people or places, which will provide a list of the
+    generated options. Select which one you wish to view and it will provide
+    details about that person or place. You can then go back to the previous
+    menu to select another person or place, or go back to the main program
+    menu.
+    """
+    clear()
+    print(instructions_general)
+    option = [Back.RED + "Go Back"]
+    chosen_option = option[cutie.select(
+        option,
+        selected_index=0
+    )]
+    if "Back" in chosen_option:
         instructions_selection()
 
 
@@ -793,6 +819,7 @@ def view_instances_selector():
     elif "Places" in chosen_option:
         view_instances_places()
     else:
+        clear()
         main()
 
 
