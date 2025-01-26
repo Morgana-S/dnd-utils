@@ -41,12 +41,13 @@ class Person:
             disposition_text
             ):
         self.name = name
-        self.alignment = law_tag, moral_tag
+        self.alignment = law_tag + " " + moral_tag
         self.age = age
         self.race = race
         self.gender = gender
         self.hair_color = hair_color
-        self.rumors = rumor_1, rumor_2
+        self.rumor_1 = rumor_1
+        self.rumor_2 = rumor_2
         self.disposition = disposition
         self.disposition_text = disposition_text
 
@@ -67,9 +68,10 @@ class Place:
         self.location_type = location_type
         self.name = name
         self.age = age
-        self.rumors = rumor_1, rumor_2
+        self.rumor_1 = rumor_1
+        self.rumor_2 = rumor_2
         self.leadership = leadership
-        self.disposition = disposition
+        self.disposition = disposition + disposition_text
         self.disposition_text = disposition_text
 
 
@@ -829,7 +831,7 @@ def view_instances_people():
     all_characters = CHARACTERS_SHEET.get_all_records()
     people = {data["name"]: Person(**data) for data in all_characters}
     people_list = list(people.keys()) + [Back.RED + "Go Back"]
-    print("Which person would you like to view?")
+    print("Which person would you like to view?\n")
     chosen_person = people_list[cutie.select(
         people_list,
         selected_index=0
@@ -865,7 +867,7 @@ def view_instances_places():
     all_places = PLACES_SHEET.get_all_records()
     places = {data["name"]: Place(**data) for data in all_places}
     places_list = list(places.keys()) + [Back.RED + "Go Back"]
-    print("Which place would you like to view?")
+    print("Which place would you like to view?\n")
     chosen_place = places_list[cutie.select(
         places_list,
         selected_index=0
