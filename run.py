@@ -100,6 +100,9 @@ def introduction():
 
     \u001b[36mFluff\u001b[0m - Generate people or places for your DND Game
 
+    \u001b[31mView generated people/places\u001b[0m - View existing instances
+    generated using Fluff
+
     \u001b[32mInstructions\u001b[0m - Shows the instructions for DiceRoller
     and Fluff
 
