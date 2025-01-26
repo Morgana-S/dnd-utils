@@ -71,7 +71,7 @@ class Place:
         self.rumor_1 = rumor_1
         self.rumor_2 = rumor_2
         self.leadership = leadership
-        self.disposition = disposition + disposition_text
+        self.disposition = disposition
         self.disposition_text = disposition_text
 
 
