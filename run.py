@@ -801,14 +801,19 @@ def view_instances_people():
     Shows a formatted list of all of the generated people
     by name, and allows the user to select them to view each attribute.
     """
+    clear()
     people = {data["name"]: Person(**data) for data in ALL_CHARACTERS}
-    people_list = list(people.keys())
+    people_list = list(people.keys()) + [Back.RED + "Go Back"]
     print("Which person would you like to view?")
     chosen_person = people_list[cutie.select(
         people_list,
         selected_index=0
         )]
-    display_selection = people[chosen_person]
+    if "Go Back" in chosen_person:
+        clear()
+        main()
+    else:
+        display_selection = people[chosen_person]
     clear()
     print("\n\u001b[33mDetails:\n")
     for attr, value in vars(display_selection).items():
@@ -830,18 +835,26 @@ def view_instances_places():
     Shows a formatted list of all of the generated places
     by name, and allows the user to select them to view each attribute.
     """
+    clear()
     places = {data["name"]: Place(**data) for data in ALL_PLACES}
-    places_list = list(places.keys())
+    places_list = list(places.keys()) + [Back.RED + "Go Back"]
     print("Which place would you like to view?")
     chosen_place = places_list[cutie.select(
         places_list,
         selected_index=0
         )]
-    display_selection = places[chosen_place]
+    if "Go Back" in chosen_place:
+        clear()
+        main()
+    else:
+        display_selection = places[chosen_place]
     clear()
     print("\n\u001b[33mDetails:\n")
     for attr, value in vars(display_selection).items():
-        print(f"{attr}: {value}")
+        if value not in ("", None):
+            print(f"{attr}: {value}")
+    # Creates a whitespace for a cleaner format
+    print("")
     option = [
         Back.RED + "Go Back"
     ]
