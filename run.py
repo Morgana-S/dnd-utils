@@ -49,10 +49,7 @@ class Person:
         self.race = race
         self.gender = gender
         self.hair_color = hair_color
-        self.rumors = [
-            rumor_1,
-            rumor_2
-        ]
+        self.rumors = rumor_1, rumor_2
         self.disposition = disposition
         self.disposition_text = disposition_text
 
@@ -66,40 +63,14 @@ class Place:
             age,
             rumor_1,
             rumor_2,
-            ):
-        self.location_type = location_type
-        self.name = name
-        self.age = age
-        self.rumors = [
-            rumor_1,
-            rumor_2
-        ]
-
-
-class Town(Place):
-    """
-    Crates an instance of the subclass Town
-    To be used only with location_type "Town"
-    members of the class Place.
-    """
-    def __init__(
-            self,
-            location_type,
-            name,
-            age,
-            rumor_1,
-            rumor_2,
             leadership,
             disposition,
             disposition_text
             ):
-        super.__init__(
-            location_type,
-            name=name,
-            age=age,
-            rumor_1=rumor_1,
-            rumor_2=rumor_2
-            )
+        self.location_type = location_type
+        self.name = name
+        self.age = age
+        self.rumors = rumor_1, rumor_2
         self.leadership = leadership
         self.disposition = disposition
         self.disposition_text = disposition_text
@@ -140,7 +111,8 @@ def introduction():
     functions = [
         Fore.YELLOW + "DiceRoller",
         Fore.CYAN + "Fluff",
-        Fore.GREEN + "Instructions"
+        Fore.GREEN + "Instructions",
+        Fore.RED + "View generated people/places"
     ]
     # Asks the user to choose a function from the choices above
     chosen_function = functions[cutie.select(functions)]
@@ -153,8 +125,10 @@ def function_selection(chosen_function):
         diceroller()
     elif "Fluff" in chosen_function:
         fluff_selector()
-    else:
+    elif "Instructions" in chosen_function:
         instructions_selection()
+    else:
+        view_instances_selector()
 
 
 def diceroller():
@@ -796,6 +770,88 @@ def instructions_fluff():
             instructions_fluff()
     else:
         instructions_selection()
+
+
+def view_instances_selector():
+    """
+    Asks the user if they wish to view generated people or places
+    and directs them to the correct function for doing so.
+    """
+    clear()
+    print("Would you like to all view people or places?")
+    options = [
+        Fore.GREEN + "People",
+        Fore.RED + "Places",
+        Back.RED + "Go Back"
+    ]
+    chosen_option = options[cutie.select(
+        options,
+        selected_index=0
+    )]
+    if "People" in chosen_option:
+        view_instances_people()
+    elif "Places" in chosen_option:
+        view_instances_places()
+    else:
+        main()
+
+
+def view_instances_people():
+    """
+    Shows a formatted list of all of the generated people
+    by name, and allows the user to select them to view each attribute.
+    """
+    people = {data["name"]: Person(**data) for data in ALL_CHARACTERS}
+    people_list = list(people.keys())
+    print("Which person would you like to view?")
+    chosen_person = people_list[cutie.select(
+        people_list,
+        selected_index=0
+        )]
+    display_selection = people[chosen_person]
+    clear()
+    print("\n\u001b[33mDetails:\n")
+    for attr, value in vars(display_selection).items():
+        print(f"{attr}: {value}")
+    option = [
+        Back.RED + "Go Back"
+    ]
+    chosen_option = option[cutie.select(
+        option,
+        selected_index=0
+    )]
+    if "Back" in chosen_option:
+        clear()
+        view_instances_people()
+
+
+def view_instances_places():
+    """
+    Shows a formatted list of all of the generated places
+    by name, and allows the user to select them to view each attribute.
+    """
+    places = {data["name"]: Place(**data) for data in ALL_PLACES}
+    places_list = list(places.keys())
+    print("Which place would you like to view?")
+    chosen_place = places_list[cutie.select(
+        places_list,
+        selected_index=0
+        )]
+    display_selection = places[chosen_place]
+    clear()
+    print("\n\u001b[33mDetails:\n")
+    for attr, value in vars(display_selection).items():
+        print(f"{attr}: {value}")
+    option = [
+        Back.RED + "Go Back"
+    ]
+    chosen_option = option[cutie.select(
+        option,
+        selected_index=0
+    )]
+    if "Back" in chosen_option:
+        clear()
+        view_instances_places()
 
 
 def main():
