@@ -103,8 +103,8 @@ def introduction():
     \u001b[31mView generated people/places\u001b[0m - View existing instances
     generated using Fluff
 
-    \u001b[32mInstructions\u001b[0m - Shows the instructions for DiceRoller
-    and Fluff
+    \u001b[32mInstructions\u001b[0m - Shows the instructions for DiceRoller,
+    Fluff, and Viewing generated people/places
 
     \u001b[93mPlease use the ↑ and ↓ arrows to select an option and hit ENTER.
     """
