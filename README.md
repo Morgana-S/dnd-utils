@@ -59,21 +59,51 @@ The target audience for this program is:
 ## Features
 
 ### Main Screen with Function Selection
+![Main Screen with function selection](/documentation/feature-images/main-screen.gif)
+- The program's main screen has a variety of functions to select from, which are outlined in the introduction text.
+- Instructions are provided on using the inbuilt selection feature to navigate to the desired option.
 
 ### Selection Feature navigatable with arrow keys and Enter Key
+![Selection feature](/documentation/feature-images/selection-feature.gif)
+- Selectable input feature provided by the CUTIE library to allow user input and validation of input while minimising the likelihood of errors and exceptions.
+- Input feature is intuitive as many other programs have similar controls; however, an instructions section is provided for the user to use.
 
 ### Colorful interfaces using the Colorama library
+![Colorful interfaces using Colorama](/documentation/feature-images/colorful-interfaces.gif)
+- The Colorama library has been used to provide ANSI color codes and constants to insert color into console terminal text.
+This helps to break up the text on what is usually a black and white screen and provides visual appeal to the project.
 
 ### Instruction Screen for ease-of-use
+![Instructions for guidance on using the program](/documentation/feature-images/instructions.gif)
+- As the program is multifunctional and can be a bit intimidating to non-Dungeons and Dragons players, an instruction section has been provided on
+each of the program's functions, as well as navigating the program.
 
 ### DiceRoller - a dice rolling function with configurable sub-features
+![Diceroller Function](/documentation/feature-images/diceroller.gif)
+- DiceRoller is a function that allows the user to generate random numbers to similate the roll of dice within Dungeons and Dragons games.
+The function allows for large numbers of dice to be rolled at once, and provides options for rolling dice with many sides, modified rolls, and advantage/disadvantage rolls, which are mechanics within Dungeons and Dragons.
+The summary screen provides information about the rolled dice, including the total sum.
 
 ### Fluff - a content generation tool to allow for quick generation of people and places
+- Fluff is a content-generation tool to allow Dungeons and Dragons Dungeon Masters (people who lead the narrative and provide content in the form of monsters, dungeons, towns and settlements) to create people and 
+places for use in games. Below I go into more detail about the specific features of the function.
 #### Generation of People
+![Fluff - Generating a Person](/documentation/feature-images/fluff-people.gif)
+- The people generation aspect of the function pulls from prepopulated lists of characteristics, such as names, races, and rumors/motivations, and combines them using random number generation to provide characters for the Dungeon Master to use. The Dungeon Master is able to select specific attributes about the
+character first with alignment tags (lawfulness and morality).
 #### Generation of Places
+![Fluff - Generating a Place](/documentation/feature-images/fluff-places.gif)
+- Generating a place works similarly to generating a person, with the initial configuration tags determining the type of place that is generated (towns, dungeons or points of interest). The different types
+of location pull from different lists of characteristics, and towns specifically have content that describes how the townsfolk are led and how they feel about the players to provide further personality to the town for the dungeon master.
 #### Storage of generated data
+![Fluff - Storage of generated Data](/documentation/feature-images/saving-content.gif)
+- After generating a person or place, the user is given the option to save the generated content to a Google Spreadsheet, which acts as the program's data storage mechanism. The spreadsheet is accessible directly by me and uses the gspread library
+as well as Google's APIs for Google Drive and Google Sheets for access. 
 
 ### Viewing data generated using Fluff
+![Viewing generated data](/documentation/feature-images/viewing-content.gif)
+- While the user is able to view the Google Sheet (if provided with the link), the nature of the program means that access to the spreadsheet may not always be possible. As such, I have implemented a way to view
+the contents of the sheet within the program itself, by converting the data stored into class objects and loading them into the program from the sheet. The user can then view generated people or places. 
 
 ## Data Models
 The program uses two main classes within the Fluff functions - these classes are called Person and Place. As their names describe, they are the class of objects that data for characters and places get converted into when recalled by the viewer function. 
