@@ -703,8 +703,9 @@ def instructions_fluff():
 
     After generating a person or place, you will be prompted to save them to
     the Google Spreadsheet which stores this information. You can save a
-    generated instance by typing 'y' and hitting ENTER. If you do not wish
-    to save the instance to the sheet, you can type 'n' and hit ENTER.
+    generated instance by selecting "Yes" when prompted and hitting ENTER. 
+    If you do not wish to save the instance to the sheet you can select "No"
+    and hit ENTER.
     """
     print(instructions_general)
     options = [
