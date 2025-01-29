@@ -114,7 +114,8 @@ The Place class contains information such as the location type, name, age, leade
 
 These classes are then called by the viewer function to provide an easy to format and reformat data viewing option for each instance of the classes. The class format also lends itself to the ability to add methods later on - for example, you could add methods to update attributes for both the Person and Place classes - updating the name of the location or person, or changing the rumors that are associated with them.
 
-## Testing & Bugs
+## Testing, Bugs & Code Validation
+For testing, bugs and code validation, please see the [TESTING.md](/TESTING.md) file.
 
 ## Deployment
 ### Deployment to Heroku
@@ -134,6 +135,10 @@ The project can also be deployed locally, especially if your IDE has an inbuilt 
 
 ## Credits
 ### Tools, Libraries and APIs
+- [Heroku](https://www.heroku.com/) - Project Deployment
+- [Git](https://git-scm.com/) - Version Control
+- [GitHub](https://github.com/) - Project Repo Hosting
+- [Licecap](https://www.cockos.com/licecap/) - Screen recording software for GIFs for feature images.
 - [Python](https://developer.mozilla.org/en-US/docs/Glossary/Python) - Program Structure and Content
 - [os](https://docs.python.org/3/library/os.html) - Functionality for Terminal clearing for readability
 - [random](https://docs.python.org/3/library/random.html) - Random number generation used to pull from lists of pregenerated content
