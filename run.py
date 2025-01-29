@@ -871,4 +871,5 @@ def main():
     function_selection(chosen_function)
 
 
-main()
+if __name__ == '__main__':
+    main()
