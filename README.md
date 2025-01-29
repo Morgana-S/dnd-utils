@@ -14,7 +14,7 @@ DNDUtils is a simple python program with a few features designed to assist Dunge
 The deployed version of the program can be accessed on Heroku [here.](https://dnd-utils-a6a188c54492.herokuapp.com/)
 
 ## How To Use
-Standard navigation within the program is done with the up and down arrow keys and pressing enter to confirm a selection. You may be prompted to type in a number for rolling dice, or hitting Y or N and hitting enter to confirm a choice. 
+Standard navigation within the program is done with the up and down arrow keys and pressing enter to confirm a selection.
 
 Detailed instructions for each function's use can be found within the program's 'instructions' menu option.
 
