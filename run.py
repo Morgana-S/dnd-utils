@@ -227,6 +227,7 @@ def fluff_selector():
     ]
     generation_type = options[cutie.select(options)]
     if "Go Back" in generation_type:
+        clear()
         main()
     else:
         fluff_tag_selector(generation_type)
@@ -267,7 +268,7 @@ def fluff_tag_selector(generation_type):
             selected_index=1
             )]
         # Change law tag to "True" if character alignment is double neutral
-        if "Neutral" in law_tag and moral_tag:
+        if "Neutral" in moral_tag and law_tag:
             law_tag = Fore.BLUE + "True"
         generation_tags = (
             law_tag,
@@ -703,7 +704,7 @@ def instructions_fluff():
 
     After generating a person or place, you will be prompted to save them to
     the Google Spreadsheet which stores this information. You can save a
-    generated instance by selecting "Yes" when prompted and hitting ENTER. 
+    generated instance by selecting "Yes" when prompted and hitting ENTER.
     If you do not wish to save the instance to the sheet you can select "No"
     and hit ENTER.
     """
@@ -794,6 +795,7 @@ def view_instances_people():
     by name, and allows the user to select them to view each attribute.
     """
     clear()
+    print("Loading People...")
     all_characters = CHARACTERS_SHEET.get_all_records()
     people = {data["name"]: Person(**data) for data in all_characters}
     people_list = list(people.keys()) + [Back.RED + "Go Back"]
@@ -830,6 +832,7 @@ def view_instances_places():
     by name, and allows the user to select them to view each attribute.
     """
     clear()
+    print("Loading Places...")
     all_places = PLACES_SHEET.get_all_records()
     places = {data["name"]: Place(**data) for data in all_places}
     places_list = list(places.keys()) + [Back.RED + "Go Back"]
