@@ -120,18 +120,84 @@ For testing, bugs and code validation, please see the [TESTING.md](/TESTING.md) 
 ## Deployment
 ### Deployment to Heroku
 This project was deployed to Heroku. The steps to deploy this are as follows:
-- Fork or clone this repository directly on github, or using your IDE terminal with the following code: 
+1. Fork or clone this repository directly on github, or using your IDE terminal with the following code: 
     - `git clone https://github.com/Morgana-S/dnd-utils.git`
-- Create a new application on Heroku.
-- Set the buildbacks to `Python` and `NodeJS`, in that order.
-- Ensure the correct config vars are in place, regarding credentials for gspread and google oauth.
-- Ensure the Heroku application is linked to the GitHub repository
-- Click Deploy
+2. Create a new application on Heroku.
+    - This requires singing up for a Heroku account, which you can do [here.](https://signup.heroku.com/login)
+    - Once your account has been created, and you are on the user dashboard, you will need to create a new app and give it a name.
+    - In the settings tab, Ensure the correct config vars are in place, regarding credentials for the Google Sheets API. This includes supplying it the appropriate information in CREDS.json, which needs to be created beforehand. Information on setting up the Google Sheets API can be found [here.](https://developers.google.com/sheets/api/quickstart/python)
+    - In the settings tab, Set the buildpacks to `Python` and `NodeJS`, in that order.
+    - In the Deploy tab, ensure the Heroku application is linked to the GitHub repository
+    - Click Deploy branch, or enable automatic deployment.
 
 ### Local Deployment
 The project can also be deployed locally, especially if your IDE has an inbuilt Python Debugging tool or terminal.
-- To deploy the project locally, please enter the following into your IDE terminal:
-    - `git clone https://github.com/Morgana-S/dnd-utils.git`
+- To deploy the project locally, please follow these instructions:
+    1. Clone the Repository to your local machine using the following command in your terminal:
+    
+    `git clone https://github.com/Morgana-S/dnd-utils.git`
+
+    2. Create a virtual environment (Optional, but recommended):
+
+    `python -m venv dnd_utils`
+
+    3. Activate the virtual environment:
+
+    On Windows:
+    `dnd_utils\Scripts\activate`
+
+    On macOS/Linux:
+    `source dnd_utils/bin/activate`
+
+    4. Install Dependencies: Navigate to the project directory and install dependencies found in requirements.txt:
+
+    Navigating out of the venv folder: `cd ..`
+
+    Navigating from your root directory: 
+    `cd <insert filepath here>\dnd-utils`
+
+    Installing dependencies: `pip3 install -r requirements.txt`
+
+    5. Setting up a Google Sheet:
+
+    To utilise the database-storage aspect of this program, you will need to create a Google sheet with four tabs in your Google Drive. For ease of creation, I have listed the individual sheets within the worksheet here, as well as their column header names:
+
+    `characters: name, law_tag, moral_tag, age, race, gender, hair_color, rumor_1, rumor_2, disposition, disposition_text`
+
+    `characters_lists: race, first_name, last_name, hair_color, rumors`
+
+    `places: location_type, name, age, rumor_1, rumor_2, leadership, disposition, disposition_text`
+
+    `places_lists: name_town, name_dungeon, name_poi, leadership, rumors_town, rumors_dungeon, rumors_poi`
+
+    In the _lists sheets, you will need to populate the columns with the desired information to pull from in generation. I would recommend finding lists of place names, common names, and coming up with some motivations and rumors. You can also find lists of Dungeons and Dragons Races [here.](https://www.dndbeyond.com/species)
+
+    6. Provide Credentials:
+    
+    To manage data, the dnd-utils application utilises the Google Sheet as a database.
+    - Go to the [Google Cloud Platform](https://console.cloud.google.com/welcome?inv=1&invt=AboOvA&project=dnd-utils-447113), logging in with your account.
+    - Create a new project, calling it something appropriate for recognition purposes.
+    - Select the project, which should take you to the project's dashboard page.
+    - Go to "API and Services" > "Library" after uncollapsing the side menu.
+    - Enable the Google Drive API.
+        - Enable the API, which should take you to the API overview page.
+        - Go into the Google Drive API, and click the 'Credentials' tab.
+        - Click the 'Create Credentials' button, and fill out the required information, selecting the Google Drive API. The role selection should be 'editor', so you can make changes to the sheet.
+        - Select the JSON option for the key type, which should download your credentials file.
+        - Move the credentials folder within the project folder, renaming it to creds.json.
+    - Enable the Google Sheets API by going back to the API library and click 'Enable'.
+    
+    7. Provide permissions:
+
+    - Open the Google Sheet in a new tab. Click the "Share" button in the top right corner.
+    - Navigate to the creds.json file in the project, and copy the client_email value.
+    - Add the value to the "People with access" section by pasting the client_email value. 
+    - Change the access type from viewer to editor.
+
+    The above will allow the program to access the google sheet.
+
+    8. Run the application - start the application by running:
+    `python run.py`into the terminal.
 
 ## Credits
 ### Tools
