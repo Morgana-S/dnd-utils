@@ -134,17 +134,21 @@ The project can also be deployed locally, especially if your IDE has an inbuilt 
     - `git clone https://github.com/Morgana-S/dnd-utils.git`
 
 ## Credits
-### Tools, Libraries and APIs
+### Tools
 - [Heroku](https://www.heroku.com/) - Project Deployment
 - [Git](https://git-scm.com/) - Version Control
 - [GitHub](https://github.com/) - Project Repo Hosting
 - [Licecap](https://www.cockos.com/licecap/) - Screen recording software for GIFs for feature images.
 - [Python](https://developer.mozilla.org/en-US/docs/Glossary/Python) - Program Structure and Content
+
+### Modules
 - [os](https://docs.python.org/3/library/os.html) - Functionality for Terminal clearing for readability
 - [random](https://docs.python.org/3/library/random.html) - Random number generation used to pull from lists of pregenerated content
 - [Colorama](https://pypi.org/project/colorama/) - ANSI Color code integration into the terminal, as well as constants that allow for colored text
 - [CUTIE](https://pypi.org/project/cutie/) - User input structure as well as inbuilt validation of user inputs
-- [Gspread](https://pypi.org/project/gspread/) Google Spreadsheet API Integration for use in Python
+- [Gspread](https://pypi.org/project/gspread/) - Google Spreadsheet API Integration for use in Python
 - [Google Auth](https://pypi.org/project/google-auth/) - Server-to-Server authentication mechanisms for Google APIs
+
+### APIs
 - [Google Sheets API](https://developers.google.com/sheets/api/guides/concepts) - API to modify and read spreadsheet data
 - [Google Drive API](https://developers.google.com/drive/api/guides/about-sdk) - API to store and access google spreadsheets in my personal Google Drive Folders
